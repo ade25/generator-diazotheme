@@ -27,7 +27,7 @@ To install generator-diazotheme from npm, clone this repository and link the
 package to your local npm executable:
 
 ```
-$ git@github.com:ade25/generator-diazotheme.git
+$ git clone git@github.com:ade25/generator-diazotheme.git
 $ cd ./generator-diazotheme
 $ sudo npm link
 ```
