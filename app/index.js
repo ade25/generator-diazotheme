@@ -49,6 +49,7 @@ DiazothemeGenerator.prototype.app = function app() {
     this.template('index.html', 'index.html');
     this.template('_bower.json', 'bower.json');
     this.template('_config.json', 'config.json');
+    this.template('_config.yml', 'config.yml');
     this.template('_package.json', 'package.json');
 };
 

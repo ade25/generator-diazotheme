@@ -187,6 +187,9 @@ module.exports = function (grunt) {
     // Cache buster distribution task.
     grunt.registerTask('dist-cb', ['rev']);
 
+    // Template distribution task.
+    grunt.registerTask('dist-templates', ['jekyll:theme']);
+
     // Full distribution task.
     grunt.registerTask('dist', ['clean', 'dist-css', 'dist-fonts', 'dist-js']);
 

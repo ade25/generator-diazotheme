@@ -23,10 +23,13 @@ $ npm install -g yo
 
 Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
 
-To install generator-diazotheme from npm, run:
+To install generator-diazotheme from npm, clone this repository and link the
+package to your local npm executable:
 
 ```
-$ npm install -g generator-diazotheme
+$ git@github.com:ade25/generator-diazotheme.git
+$ cd ./generator-diazotheme
+$ sudo npm link
 ```
 
 Finally, initiate the generator:

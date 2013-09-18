@@ -6,8 +6,8 @@ pygments:         true
 permalink:        pretty
 
 # Server
-destination:      ./_gh_pages
-exclude:          [".editorconfig", ".gitignore", ".ruby-version", "bower.json", "composer.json", "CONTRIBUTING.md", "CNAME", "LICENSE", "Gruntfile.js", "package.json", "node_modules", "README.md", "less"]
+destination:      ./templates
+exclude:          [".editorconfig", ".gitignore", ".bowerrc", "jshintrc", "bower.json", "config.json", "Gruntfile.js", "package.json", "manifest.cfg", "rules.xml", "node_modules", "bower_components", "README.md", "assets", "less", "js", "overrides"]
 port:             9001
 
 # Custom vars
