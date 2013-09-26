@@ -35,21 +35,17 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
 DiazothemeGenerator.prototype.app = function app() {
     this.directory('layouts/', '_layouts/');
     this.directory('includes/', '_includes/');
+    this.directory('less/', 'less/');
+    this.directory('overrides/', 'overrides/');
     this.mkdir('js');
     this.copy('main.js', 'js/main.js');
-    this.mkdir('less');
-    this.copy('settings.less', 'less/settings.less');
-    this.copy('application.less', 'less/application.less');
-    this.template('styles.less', 'less/styles.less');
-    this.mkdir('overrides');
-    this.template('overrides-readme.md', 'overrides/README.md');
     this.copy('rules.xml', 'rules.xml');
     this.template('_manifest.cfg', 'manifest.cfg');
     this.copy('Gruntfile.js', 'Gruntfile.js');
     this.template('index.html', 'index.html');
     this.template('_bower.json', 'bower.json');
     this.template('_config.json', 'config.json');
-    this.template('_config.yml', 'config.yml');
+    this.template('_config.yml', '_config.yml');
     this.template('_package.json', 'package.json');
 };
 
