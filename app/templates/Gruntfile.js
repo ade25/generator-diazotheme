@@ -53,6 +53,13 @@ module.exports = function (grunt) {
                     'js/main.js'
                 ],
                 dest: 'dist/js/<%= pkg.name %>.js'
+            },
+            theme: {
+                src: [
+                    'bower_components/bootstrap/dist/js/bootstrap.js',
+                    'js/main.js'
+                ],
+                dest: 'dist/js/main.js'
             }
         },
 
