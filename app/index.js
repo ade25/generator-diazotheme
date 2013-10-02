@@ -35,6 +35,7 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
 DiazothemeGenerator.prototype.app = function app() {
     this.directory('layouts/', '_layouts/');
     this.directory('includes/', '_includes/');
+    this.directory('assets/', 'assets/');
     this.directory('less/', 'less/');
     this.directory('overrides/', 'overrides/');
     this.mkdir('js');
@@ -43,6 +44,7 @@ DiazothemeGenerator.prototype.app = function app() {
     this.template('_manifest.cfg', 'manifest.cfg');
     this.copy('Gruntfile.js', 'Gruntfile.js');
     this.template('index.html', 'index.html');
+    this.template('signin.html', 'signin.html');
     this.template('_bower.json', 'bower.json');
     this.template('_config.json', 'config.json');
     this.template('_config.yml', '_config.yml');
@@ -53,5 +55,5 @@ DiazothemeGenerator.prototype.projectfiles = function projectfiles() {
     this.copy('bowerrc', '.bowerrc');
     this.copy('gitignore', '.gitignore');
     this.copy('editorconfig', '.editorconfig');
-    this.copy('jshintrc', '.jshintrc');
+    this.copy('jshintrc', 'js/.jshintrc');
 };
