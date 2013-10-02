@@ -18,7 +18,7 @@ module.exports = function (grunt) {
                   '*\n' +
                   '* Designed and built by ade25\n' +
                   '*/\n',
-        jqueryCheck: 'if (!jQuery) { throw new Error(\"Bootstrap requires jQuery\") }\n\n',
+        jqueryCheck: 'if (typeof jQuery === "undefined") { throw new Error(\"We require jQuery\") }\n\n',
 
         // Task configuration.
         clean: {
@@ -161,18 +161,19 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-rev');
     grunt.loadNpmTasks('browserstack-runner');
 
+    // Copy jekyll generated templates and rename for diazo
+    grunt.registerTask('theme-templates', '', function () {
+        grunt.file.copy('_site/index.html', 'dist/theme.html');
+        grunt.file.copy('_site/signin/index.html', 'dist/signin.html');
+        grunt.file.copy('_site/blogcontent/index.html', 'dist/blog.html');
+    });
+
     // Docs HTML validation task
     grunt.registerTask('validate-html', ['jekyll', 'validation']);
 
     // Test task.
     var testSubtasks = ['dist-css', 'jshint', 'qunit', 'validate-html'];
-    // Only run BrowserStack tests under Travis
-    if (process.env.TRAVIS) {
-      // Only run BrowserStack tests if this is a mainline commit in twbs/bootstrap, or you have your own BrowserStack key
-        if ((process.env.TRAVIS_REPO_SLUG === 'twbs/bootstrap' && process.env.TRAVIS_PULL_REQUEST === 'false') || process.env.TWBS_HAVE_OWN_BROWSERSTACK_KEY) {
-            testSubtasks.push('browserstack_runner');
-        }
-    }
+
     grunt.registerTask('test', testSubtasks);
 
     // JS distribution task.
