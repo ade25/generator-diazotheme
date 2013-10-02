@@ -1,3 +1,6 @@
+# Re-enable global ignored directory
+!dist
+
 # Ignore compiled docs
 _gh_pages
 _site
