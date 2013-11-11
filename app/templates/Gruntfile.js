@@ -95,8 +95,21 @@ module.exports = function (grunt) {
                 expand: true,
                 flatten: true,
                 cwd: 'bower_components/',
-                src: ['font-awesome/font/*'],
-                dest: 'assets/fonts/'
+                src: ['font-awesome/fonts/*'],
+                dest: 'dist/assets/fonts/'
+            },
+            ico: {
+                expand: true,
+                flatten: true,
+                cwd: 'bower_components/',
+                src: ['bootstrap/assets/ico/*'],
+                dest: 'dist/assets/ico/'
+            },
+            images: {
+                expand: true,
+                flatten: true,
+                src: ['assets/img/*'],
+                dest: 'dist/assets/img/'
             }
         },
         rev: {
@@ -125,6 +138,27 @@ module.exports = function (grunt) {
         },
         jekyll: {
             docs: {}
+        },
+
+        sed: {
+            'clean-source-assets': {
+                path: 'dist/',
+                pattern: '../../assets/',
+                replacement: '../assets/',
+                recursive: true
+            },
+            'clean-source-css': {
+                path: 'dist/',
+                pattern: '../dist/css/styles.css',
+                replacement: 'css/styles.css',
+                recursive: true
+            },
+            'clean-source-js': {
+                path: 'dist/',
+                pattern: '../dist/js/rms.js',
+                replacement: 'js/rms.min.js',
+                recursive: true
+            }
         },
 
         validation: {
@@ -166,13 +200,21 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jekyll');
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-rev');
-    grunt.loadNpmTasks('browserstack-runner');
+
+    // -------------------------------------------------
+    // These are the available tasks provided
+    // Run them in the Terminal like e.g. grunt dist-css
+    // -------------------------------------------------
+
+    // Prepare distrubution
+    grunt.registerTask('dist-init', '', function () {
+        grunt.file.mkdir('dist/assets/');
+    });
 
     // Copy jekyll generated templates and rename for diazo
-    grunt.registerTask('theme-templates', '', function () {
+    grunt.registerTask('copy-templates', '', function () {
         grunt.file.copy('_site/index.html', 'dist/theme.html');
         grunt.file.copy('_site/signin/index.html', 'dist/signin.html');
-        grunt.file.copy('_site/blogcontent/index.html', 'dist/blog.html');
     });
 
     // Docs HTML validation task
@@ -196,10 +238,10 @@ module.exports = function (grunt) {
     grunt.registerTask('dist-cb', ['rev']);
 
     // Template distribution task.
-    grunt.registerTask('dist-templates', ['jekyll:theme']);
+    grunt.registerTask('dist-html', ['jekyll:theme', 'copy-templates', 'sed']);
 
     // Full distribution task.
-    grunt.registerTask('dist', ['clean', 'dist-css', 'dist-fonts', 'dist-js']);
+    grunt.registerTask('dist', ['clean', 'dist-css', 'dist-js', 'dist-html', 'dist-assets']);
 
     // Default task.
     grunt.registerTask('default', ['test', 'dist']);
