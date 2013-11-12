@@ -50,6 +50,7 @@ module.exports = function (grunt) {
                     'bower_components/jquery/jquery.js',
                     'bower_components/modernizr/modernizr.js',
                     'bower_components/bootstrap/dist/js/bootstrap.js',
+                    'bower_components/holderjs/holder.js',
                     'js/main.js'
                 ],
                 dest: 'dist/js/<%= pkg.name %>.js'
@@ -199,6 +200,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html-validation');
     grunt.loadNpmTasks('grunt-jekyll');
     grunt.loadNpmTasks('grunt-recess');
+    grunt.loadNpmTasks('grunt-sed');
     grunt.loadNpmTasks('grunt-rev');
 
     // -------------------------------------------------
