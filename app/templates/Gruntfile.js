@@ -204,6 +204,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-html-validation');
+    grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-jekyll');
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-sed');
