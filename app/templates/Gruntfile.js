@@ -12,7 +12,7 @@ module.exports = function (grunt) {
         // Metadata.
         pkg: grunt.file.readJSON('package.json'),
         banner: '/*!\n' +
-                  '* <%= _.slugify(themeName) %> v<%= pkg.version %> by Ade25\n' +
+                  '* <%= pkg.name %> v<%= pkg.version %> by Ade25\n' +
                   '* Copyright <%= pkg.author %>\n' +
                   '* Licensed under <%= pkg.licenses %>.\n' +
                   '*\n' +
@@ -138,7 +138,7 @@ module.exports = function (grunt) {
             }
         },
         jekyll: {
-            docs: {}
+            theme: {}
         },
 
         sed: {
@@ -184,7 +184,13 @@ module.exports = function (grunt) {
                 files: 'less/*.less',
                 tasks: ['recess']
             }
+        },
+
+        concurrent: {
+            cj: ['recess', 'copy', 'concat', 'uglify'],
+            ha: ['jekyll:theme', 'copy-templates', 'sed']
         }
+
     });
 
 
@@ -222,8 +228,11 @@ module.exports = function (grunt) {
     // Docs HTML validation task
     grunt.registerTask('validate-html', ['jekyll', 'validation']);
 
+    // Unit tests using phantom.js (not enabled by default)
+    grunt.registerTask('unit-test', ['qunit']);
+
     // Test task.
-    var testSubtasks = ['dist-css', 'jshint', 'qunit', 'validate-html'];
+    var testSubtasks = ['dist-css', 'jshint', 'validate-html'];
 
     grunt.registerTask('test', testSubtasks);
 
@@ -245,6 +254,7 @@ module.exports = function (grunt) {
     // Full distribution task.
     grunt.registerTask('dist', ['clean', 'dist-css', 'dist-js', 'dist-html', 'dist-assets']);
 
+    grunt.registerTask('dist-cc', ['test', 'concurrent:cj', 'concurrent:ha']);
     // Default task.
     grunt.registerTask('default', ['test', 'dist']);
 };
