@@ -1,8 +1,15 @@
-<!-- Bootstrap core JavaScript
+<!-- Defered JavaScript Loader
+(see: http://www.feedthebot.com/pagespeed/defer-loading-javascript.html)
 ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="{{ page.base_url }}bower_components/jquery/jquery.js"></script>
-<script src="{{ page.base_url }}bower_components/bootstrap/dist/js/bootstrap.js"></script>
-<script src="{{ page.base_url }}bower_components/holderjs/holder.js"></script>
-
-<script src="{{ page.base_url }}js/main.js"></script>
+<script type="text/javascript">
+function downloadJSAtOnload() {
+var element = document.createElement("script");
+element.src = "{{ page.base_url }}dist/js/<%= pkg.name %>.js";
+document.body.appendChild(element);
+}
+if (window.addEventListener)
+window.addEventListener("load", downloadJSAtOnload, false);
+else if (window.attachEvent)
+window.attachEvent("onload", downloadJSAtOnload);
+else window.onload = downloadJSAtOnload;
+</script>
