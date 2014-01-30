@@ -273,6 +273,10 @@ module.exports = function (grunt) {
     // Full distribution task.
     grunt.registerTask('dist', ['clean', 'dist-css', 'dist-js', 'dist-html', 'dist-assets']);
 
+    // Shim theme compilation alias
+    grunt.registerTask('compile-theme', ['dist']);
+
     // Default task.
     grunt.registerTask('default', ['dev']);
+
 };

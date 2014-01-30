@@ -24,12 +24,6 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
         {
             name: 'themeName',
             message: 'What would you like to name your theme?'
-        },
-        {
-            type: 'confirm',
-            name: 'includeMockupCore',
-            message: 'Would you like to include Plone mockup-core (for pattern support)?',
-            default: true
         }
     ];
 
