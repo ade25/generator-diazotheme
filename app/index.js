@@ -20,10 +20,18 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
     var cb = this.async();
     // have Yeoman greet the user.
     console.log(this.yeoman);
-    var prompts = [{
-        name: 'themeName',
-        message: 'What would you like to name your theme?'
-    }];
+    var prompts = [
+        {
+            name: 'themeName',
+            message: 'What would you like to name your theme?'
+        },
+        {
+            type: 'confirm',
+            name: 'includeMockupCore',
+            message: 'Would you like to include Plone mockup-core (for pattern support)?',
+            default: true
+        }
+    ];
 
     this.prompt(prompts, function (props) {
         this.themeName = props.themeName;

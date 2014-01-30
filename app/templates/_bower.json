@@ -13,6 +13,7 @@
     "html5shiv": "~3.6.2",
     "holderjs": "~2.1.0",
     "animate.css": "~3.0.0",
+    "mockup-core": "1.0.0",
     "diazo-plone": "git@github.com:ade25/diazo-plone.git"
   },
   "devDependencies": {
