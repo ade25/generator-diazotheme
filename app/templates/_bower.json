@@ -14,7 +14,7 @@
     "holderjs": "~2.1.0",
     "animate.css": "~3.0.0",
     "mockup-core": "1.0.0",
-    "diazo-plone": "git@github.com:ade25/diazo-plone.git"
+    "diazo-plone": "git@github.com:ade25/diazo-plone.git#master"
   },
   "devDependencies": {
     "chai": "1.7.2"
