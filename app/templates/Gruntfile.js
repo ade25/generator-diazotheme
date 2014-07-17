@@ -110,12 +110,24 @@ module.exports = function (grunt) {
     },
 
     copy: {
-      fonts: {
+      fontawesome: {
         expand: true,
         flatten: true,
         cwd: 'bower_components/',
         src: ['font-awesome/fonts/*'],
         dest: 'dist/assets/fonts/'
+      },
+      fonts: {
+        expand: true,
+        flatten: true,
+        src: ['assets/font/*'],
+        dest: 'dist/assets/fonts/'
+      },
+      css: {
+        expand: true,
+        flatten: true,
+        src: ['assets/css/*'],
+        dest: 'dist/assets/css/'
       },
       ico: {
         expand: true,
@@ -131,6 +143,18 @@ module.exports = function (grunt) {
         dest: 'dist/assets/img/'
       }
     },
+
+    imagemin: {
+      dynamic: {
+        files: [{
+          expand: true,
+          cwd: 'assets/img/',
+          src: ['**/*.{png,jpg,gif}'],
+          dest: 'dist/assets/img/'
+        }]
+      }
+    },
+
     rev: {
       options:  {
         algorithm: 'sha256',
@@ -160,24 +184,29 @@ module.exports = function (grunt) {
     },
 
     sed: {
-      'clean-source-assets': {
+      cleanAssetsPath: {
         path: 'dist/',
         pattern: '../../assets/',
         replacement: '../assets/',
         recursive: true
       },
-      'clean-source-css': {
+      cleanCSS: {
         path: 'dist/',
-        pattern: '../dist/css/styles.css',
-        replacement: 'css/styles.css',
+        pattern: '../dist/css/<%= pkg.name %>.min.css',
+        replacement: 'dist/css/<%= pkg.name %>.min.css',
         recursive: true
       },
-      'clean-source-js': {
+      cleanJS: {
         path: 'dist/',
-        pattern: '../dist/js/rms.js',
-        replacement: 'js/rms.min.js',
+        pattern: '../dist/css/<%= pkg.name %>.min.js',
+        replacement: 'dist/css/<%= pkg.name %>.min.js',
         recursive: true
-      }
+      },
+      cleanImgPath: {
+        path: 'dist/theme.html',
+        pattern: '../assets/img/',
+        replacement: 'assets/img/',
+      },
     },
 
     validation: {
