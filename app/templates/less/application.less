@@ -18,6 +18,46 @@ body {
     }
   }
 }
+// prevent fake bolds
+b,
+strong {
+    font-weight: 600;
+    .ws-active & {
+        font-weight: 600;
+    }
+}
+
+a {
+    outline: none;
+}
+
+a:hover {
+  .transition(color .5s linear);
+}
+
+// Reenable tpye selection in navigation control panel
+.template-navigation-controlpanel .label:empty {
+    display: inline;
+}
+
+// Combat plone hidden element class via mixin
+.hiddenStructure {
+    .hidden();
+}
+
+// Reset widget styling
+.mce-edit-area,
+#content .field textarea,
+#content .field input[type="text"] {
+    background: #fff;
+    background-image: none;
+}
+
+// Fix recurrence widget overlay styling
+div.riform .label {
+    float: none;
+}
+
 
 .app-toolbar + .app-navbar {
     margin-top: @navbar-height;
