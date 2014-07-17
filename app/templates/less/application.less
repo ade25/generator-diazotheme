@@ -2,6 +2,23 @@
 // Application stylesheet
 // -----------------------------------------------
 
+body {
+    background: @gray-lighter;
+    &.template-theming-controlpanel .row {
+        // Fix theming control panel
+        margin: 0 @line-height-computed;
+    }
+    // Set font weights if webfont is active
+  &.ws-active {
+    // Default twbs weight for headings 500 not provided by Open Sans
+    @headings-font-weight: 600;
+    b,
+    strong {
+        font-weight: 600;
+    }
+  }
+}
+
 .app-toolbar + .app-navbar {
     margin-top: @navbar-height;
 }
