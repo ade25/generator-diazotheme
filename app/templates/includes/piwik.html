@@ -1,11 +1,14 @@
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://fuenfzueins.vorwaerts-werbung.de/piwik/" : "http://fuenfzueins.vorwaerts-werbung.de/piwik/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", XXXX);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="http://fuenfzueins.vorwaerts-werbung.de/piwik/piwik.php?idsite=XXXX" style="border:0" alt="" /></p></noscript>
-<!-- End Piwik Tracking Code -->
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://tkr.ade25.de/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', XXXX]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="http://tkr.ade25.de/piwik.php?idsite=XXXX" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
