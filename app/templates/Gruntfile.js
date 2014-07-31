@@ -134,6 +134,38 @@ module.exports = function (grunt) {
       }
     },
 
+    csslint: {
+      options: {
+        csslintrc: 'less/.csslintrc'
+      },
+      src: [
+        'dist/css/<%= pkg.name %>.css'
+      ],
+      examples: [
+        'docs/examples/**/*.css'
+      ],
+      docs: {
+        options: {
+          ids: false,
+          'overqualified-elements': false
+        },
+        src: 'docs/assets/css/src/docs.css'
+      }
+    },
+
+    cssmin: {
+      options: {
+        compatibility: 'ie8',
+        keepSpecialComments: '*',
+        noAdvanced: true
+      },
+      core: {
+        files: {
+          'dist/css/<%= pkg.name %>.min.css': 'dist/css/<%= pkg.name %>.css'
+        }
+      }
+    },
+
     csscomb: {
       sort: {
         options: {
