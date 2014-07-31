@@ -1,7 +1,8 @@
 /* jshint node: true */
-'use strict';
 
 module.exports = function (grunt) {
+
+  'use strict';
 
   // load all grunt tasks
   require('load-grunt-tasks')(grunt);
@@ -34,9 +35,18 @@ module.exports = function (grunt) {
       },
       src: {
         src: ['js/*.js']
+      }
+    },
+
+    jscs: {
+      options: {
+        config: 'js/.jscsrc'
       },
-      test: {
-        src: ['js/tests/unit/*.js']
+      grunt: {
+        src: '<%= jshint.grunt.src %>'
+      },
+      src: {
+        src: '<%= jshint.src.src %>'
       }
     },
 
@@ -86,15 +96,6 @@ module.exports = function (grunt) {
         files: {
           'dist/css/<%= pkg.name %>.css': 'less/styles.less'
         }
-      },
-      minify: {
-        options: {
-          cleancss: true,
-          report: 'min'
-        },
-        files: {
-          'dist/css/<%= pkg.name %>.min.css': 'dist/css/<%= pkg.name %>.css'
-        }
       }
     },
 
@@ -116,21 +117,6 @@ module.exports = function (grunt) {
           map: true
         },
         src: 'dist/css/<%= pkg.name %>.css'
-      },
-      theme: {
-        options: {
-          map: true
-        },
-        src: 'dist/css/<%= pkg.name %>-theme.css'
-      },
-      docs: {
-        src: 'docs/assets/css/src/docs.css'
-      },
-      examples: {
-        expand: true,
-        cwd: 'docs/examples/',
-        src: ['**/*.css'],
-        dest: 'docs/examples/'
       }
     },
 
@@ -138,19 +124,7 @@ module.exports = function (grunt) {
       options: {
         csslintrc: 'less/.csslintrc'
       },
-      src: [
-        'dist/css/<%= pkg.name %>.css'
-      ],
-      examples: [
-        'docs/examples/**/*.css'
-      ],
-      docs: {
-        options: {
-          ids: false,
-          'overqualified-elements': false
-        },
-        src: 'docs/assets/css/src/docs.css'
-      }
+      src: 'dist/css/<%= pkg.name %>.css'
     },
 
     cssmin: {
@@ -351,7 +325,7 @@ module.exports = function (grunt) {
 
   // CSS distribution task.
   grunt.registerTask('less-compile', ['less:compileTheme']);
-  grunt.registerTask('dist-css', ['less-compile', 'csscomb', 'less:minify']);
+  grunt.registerTask('dist-css', ['less-compile', 'autoprefixer', 'csscomb', 'cssmin']);
 
   // Assets distribution task.
   grunt.registerTask('dist-assets', ['newer:copy', 'newer:imagemin']);

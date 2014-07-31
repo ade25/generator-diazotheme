@@ -67,6 +67,7 @@ DiazothemeGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('gitignore', '.gitignore');
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', 'js/.jshintrc');
+  this.copy('jscsrc', 'js/.jscsrc');
 };
 
 DiazothemeGenerator.prototype.patterns = function patterns() {
