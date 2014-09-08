@@ -14,13 +14,6 @@
     {% include navbar.html %}
     {% include brandbar.html %}
 
-    <div class="app-header">
-      <div class="container">
-        <h1>{{ page.title }}</h1>
-        <p>{{ page.lead }}</p>
-      </div>
-    </div>
-
     <div class="container">
         <div role="main">
           {{ content }}
@@ -32,6 +25,5 @@
     <div class="app-js-slot">
         {% include webfonts.html %}
     </div>
-
   </body>
 </html>
