@@ -4,54 +4,49 @@
     xmlns:css="http://namespaces.plone.org/diazo/css"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <!-- Add alternativ theme templates -->
-    <!-- Example to add minimal theme template for the
-         tiles editiong overlays -->
-    <!--<theme href="minimal.html" if-path="@@edit-tile" />-->
-
      <!-- Setup custom login form -->
-    <theme href="dist/signin.html" css:if-content="body.template-login_form" />
-    <theme href="dist/signin.html" css:if-content="body.template-logged_out" />
-    <theme href="dist/signin.html" css:if-content="body.template-login_failed" />
-    <theme href="dist/signin.html" css:if-content="body.template-mail_password_form" />
-    <theme href="dist/signin.html" css:if-content="body.template-mail_password_response" />
-    <theme href="dist/signin.html" css:if-content="body.template-pwreset_form" />
-    <theme href="dist/signin.html" css:if-content="body.template-pwreset_finish" />
+    <theme href="dist/signin/index.html" css:if-content="body.template-login_form" />
+    <theme href="dist/signin/index.html" css:if-content="body.template-logged_out" />
+    <theme href="dist/signin/index.html" css:if-content="body.template-login_failed" />
+    <theme href="dist/signin/index.html" css:if-content="body.template-mail_password_form" />
+    <theme href="dist/signin/index.html" css:if-content="body.template-mail_password_response" />
+    <theme href="dist/signin/index.html" css:if-content="body.template-pwreset_form" />
+    <theme href="dist/signin/index.html" css:if-content="body.template-pwreset_finish" />
 
     <!-- Rules applying to a standard Plone web page -->
     <rules css:if-content="#visual-portal-wrapper">
 
         <notheme if="$ajax_load" />
-        <theme href="dist/theme.html" />
+        <theme href="dist/index.html" />
 
         <replace css:theme="title" css:content="title" />
+        <replace css:theme="base" css:content="base" />
         <!-- Add meta tags -->
         <drop theme="/html/head/meta" />
 
-        <after content="/html/head/meta" theme-children="/html/head" />
+        <before content="/html/head/meta" theme="/html/head/title" />
 
-        <rules css:if-content="body.userrole-authenticated">
-            <!-- Copy style, script and link tags in the order they appear in the content -->
-            <after
-                content="/html/head/style | /html/head/script | /html/head/link"
-                theme-children="/html/head"
-                />
+        <after content="/html/head/link"
+            theme-children="/html/head"
+            css:if-content="body.userrole-authenticated" />
+        <after
+            content="/html/head/script"
+            theme-children="/html/head"
+            css:if-content="body.userrole-authenticated"
+            />
+        <drop theme="/html/head/style" />
 
-            <drop theme="/html/head/style" />
-            <drop theme="/html/head/script" />
-            <drop theme="/html/head/link" />
-
-            <!-- Drop scripts from theme footer if present -->
-            <drop theme="/html/body/script" />
-        </rules>
+        <!-- Drop scripts from theme footer if present -->
+        <drop theme="/html/body/script"
+            css:if-content="body.userrole-authenticated" />
 
         <!-- Custom favicon implementation -->
-        <drop css:content="head link[rel='apple-touch-icon']" />
-        <drop css:content="head link[rel='shortcut icon']" />
-        <!--<drop content="link[@type='image/x-icon']" />
+        <drop content="link[@type='image/x-icon']" />
         <after theme="/html/head">
-            <link rel="shortcut icon" href="/++theme++example.jmstheme/img/favicon.ico" type="images/x-icon" />
-        </after>-->
+            <link rel="shortcut icon" href="/++theme++example.sitetheme/dist/assets/ico/favicon.ico" type="images/x-icon" />
+            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/++theme++example.sitetheme/dist/assets/ico/apple-touch-icon-144-precomposed.png" />
+            <link rel="shortcut icon" href="/++theme++example.sitetheme/dist/assets/ico/favicon.png" />
+        </after>
 
         <!-- Copy over the id/class attributes on the body tag.
              This is important for per-section styling -->
@@ -65,9 +60,6 @@
         <replace css:theme="#app-toolbar"
             css:content="#app-toolbar" />
 
-        <replace css:theme-children="#personal-tools"
-            css:content-children="#portal-personaltools" />
-
         <!-- Logo (link target) -->
         <copy attributes="href" css:content="#portal-logo" css:theme="a.navbar-brand" />
         <copy attributes="href" css:content="#portal-logo" css:theme="a.app-brand" />
@@ -78,11 +70,11 @@
 
         <!-- Global navigation -->
         <replace css:content="#portal-globalnav li"
-            css:theme-children="#main-nav" />
+            css:theme-children="#app-main-nav" />
 
         <!-- Breadcrumbs -->
         <replace css:content-children='#portal-breadcrumbs'
-            css:theme-children='#breadcrumbs' />
+            css:theme-children='#app-pathbar' />
 
          <!-- Login form rules -->
         <replace css:content-children="#content-core"
@@ -115,6 +107,12 @@
         <before css:content=".portalMessage" css:theme="#content" />
         <replace css:content-children="#viewlet-below-content"
             css:theme-children="#app-below-main-content" />
+
+        <replace css:content=".configlets">
+            <ul class="nav nav-list checkbox">
+                <xsl:apply-templates />
+            </ul>
+        </replace>
 
         <!-- Columns example -->
         <replace css:content-children="#portal-column-two > *"
