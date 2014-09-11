@@ -74,8 +74,6 @@ module.exports = function (grunt) {
           'bower_components/jquery/dist//jquery.js',
           'bower_components/modernizr/modernizr.js',
           'bower_components/bootstrap/dist/js/bootstrap.js',
-          'bower_components/headroom.js/dist/headroom.js',
-          'bower_components/headroom.js/dist/jQuery.headroom.js',
           'js/application.js'
         ],
         dest: '<%= appconfig.dist %>/js/<%= pkg.name %>.js'
@@ -83,10 +81,6 @@ module.exports = function (grunt) {
       theme: {
         src: [
           'bower_components/bootstrap/dist/js/bootstrap.js',
-          'bower_components/JQuery.Marquee/jquery.marquee.js',
-          'bower_components/datatables/media/js/jquery.dataTables.js',
-          'bower_components/headroom.js/dist/headroom.js',
-          'bower_components/headroom.js/dist/jQuery.headroom.js',
           'js/application.js'
         ],
         dest: '<%= appconfig.dist %>/js/main.js'
@@ -331,13 +325,14 @@ module.exports = function (grunt) {
         pattern: '../../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
         replacement: 'dist/js/<%= pkg.name %>.min.js',
         recursive: true
-      },
-      cleanImgPath: {
-        path: '<%= appconfig.dist %>',
-        pattern: '../assets/img/',
-        replacement: 'assets/img/',
-        recursive: true
-      },
+      }
+      // Deactivated - uncomment when needed
+      //cleanImgPath: {
+      //  path: '<%= appconfig.dist %>',
+      //  pattern: '../assets/img/',
+      //  replacement: 'assets/img/',
+      //  recursive: true
+      //},
     },
 
     validation: {
@@ -473,7 +468,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-cb', ['filerev', 'filerev_replace']);
 
   // Template distribution task.
-  grunt.registerTask('dist-html', ['jekyll:theme', 'newer:htmlmin', 'newer:sed']);
+  grunt.registerTask('dist-html', ['jekyll:theme', 'newer:htmlmin', 'sed']);
 
   // Concurrent distribution task
   grunt.registerTask('dist-cc', ['test', 'concurrent:cj', 'concurrent:ha']);
