@@ -3,13 +3,55 @@
 //
 
 // Set root font size
-
 html {
     font-size: @font-size-root;
+    @media (min-width: @screen-sm-min) {
+        font-size: ceil((@font-size-root + 2));
+    }
 }
 
-// Change styling for elements that mix pixels and ems
+body {
+    background: @gray-lighter;
+    &.template-theming-controlpanel .row {
+        // Fix theming control panel
+        margin: 0 @line-height-computed;
+    }
+}
 
+// Set font weights if webfont is active
+.ws-active {
+    // Default twbs weight for headings 500 not provided by Open Sans
+    @headings-font-weight: 600;
+    b,
+    strong {
+        font-weight: 600;
+    }
+}
+
+// prevent fake bolds
+b,
+strong {
+    font-weight: 600;
+    .ws-active & {
+        font-weight: 600;
+    }
+}
+
+// Remove dotted outline
+a {
+    outline: 0;
+}
+
+// Transistion link color on :hover state
+a:hover {
+  .transition(color .5s linear);
+}
+
+
+// Change styling for elements that mix pixels and rems
+//
+// Form input is calculated based on line and font sizes and needs to be
+// adjusted manually
 pre {
   font-size: ( @font-size-base - (1 / @font-size-root) );
 }
@@ -54,50 +96,20 @@ pre {
     }
 }
 
-
-body {
-    background: @gray-lighter;
-    &.template-theming-controlpanel .row {
-        // Fix theming control panel
-        margin: 0 @line-height-computed;
-    }
-}
-
-// Set font weights if webfont is active
-.ws-active {
-    // Default twbs weight for headings 500 not provided by Open Sans
-    @headings-font-weight: 600;
-    b,
-    strong {
-        font-weight: 600;
-    }
-}
-
-// prevent fake bolds
-b,
-strong {
-    font-weight: 600;
-    .ws-active & {
-        font-weight: 600;
-    }
-}
-
-a {
-    outline: 0;
-}
-
-a:hover {
-  .transition(color .5s linear);
-}
-
-// Reenable tpye selection in navigation control panel
-.template-navigation-controlpanel .label:empty {
-    display: inline;
-}
+// Optional plone settings and adjustments
+// ---------------------------------------
+// Combat plone.app.widget styling (also using bootstrap) and correct
+// display errors caused by grid system inconsistencies
 
 // Combat plone hidden element class via mixin
 .hiddenStructure {
     .hidden();
+}
+
+// Reenable type selection in navigation control panel
+// Hidden by bootstrap label component
+.template-navigation-controlpanel .label:empty {
+    display: inline;
 }
 
 // Reset widget styling
@@ -129,40 +141,13 @@ div.riform .label {
     .translate(0, -100%);
 }
 
-// dataTables stylings used in the user manager
-.app-table-usermanager {
-    > tbody > td:first-child {
-        max-width: @screen-xs;
-    }
-}
-
-.row-dt-filter {
-    margin: @line-height-computed 0;
-}
-
-.dataTables_paginate > a {
-    display: inline-block;
-    margin-right: @line-height-computed;
-}
-
-// Reset border radius on form elements
-.btn,
-.form-control {
-    border-radius: 0;
-}
-
+// Force search button to display styled
 .searchButton {
     .btn();
     .btn-default();
 }
 
 // Reset tiny mce content body styling for better readability
-
 .mceContentBody {
     padding: @line-height-computed;
-}
-
-.datagridwidget-table-view {
-    .table();
-    .table-condensed();
 }
