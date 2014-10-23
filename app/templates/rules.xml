@@ -20,7 +20,7 @@
         <theme href="dist/index.html" />
 
         <replace css:theme="title" css:content="title" />
-        <replace css:theme="base" css:content="base" />
+       <after theme="/html/head/title" css:content="base" />
         <!-- Add meta tags -->
         <drop theme="/html/head/meta" />
 
@@ -42,7 +42,8 @@
         </rules>
 
         <!-- Custom favicon implementation -->
-        <drop content="link[@type='image/x-icon']" />
+        <drop css:content="head link[rel='apple-touch-icon']" />
+        <drop css:content="head link[rel='shortcut icon']" />
         <after theme="/html/head">
             <link rel="shortcut icon" href="/++theme++example.sitetheme/dist/assets/ico/favicon.ico" type="images/x-icon" />
             <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/++theme++example.sitetheme/dist/assets/ico/apple-touch-icon-144-precomposed.png" />
