@@ -27,7 +27,7 @@
         <metal:login use-macro="context/login_form/macros/login" />
 
       <div class="app-signin-group app-signin-control app-signin-group-text">
-        <div class="container">
+        <div class="app-signin-field">
           <p i18n:translate="description_not_accept_cookies">
             If your user name and password are correct, the problem may be that
             your browser is not configured to accept cookies.
