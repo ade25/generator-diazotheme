@@ -32,9 +32,7 @@ module.exports = function (grunt) {
                     'bower_components/modernizr/modernizr.js',
                     'bower_components/bootstrap/dist/js/bootstrap.js',
                     'bower_components/hideShowPassword/hideShowPassword.js',
-                    'bower_components/blazy/blazy.js',
-                    'js/classie.js',
-                    'js/overlay.js',
+                    'bower_components/lazysizes/lazysizes.js',
                     'js/main.js'
                 ],
                 dest: '<%= appconfig.dist %>/js/<%= pkg.name %>.js'
@@ -43,9 +41,7 @@ module.exports = function (grunt) {
                 src: [
                     'bower_components/bootstrap/dist/js/bootstrap.js',
                     'bower_components/hideShowPassword/hideShowPassword.js',
-                    'bower_components/blazy/blazy.js',
-                    'js/classie.js',
-                    'js/overlay.js',
+                    'bower_components/lazysizes/lazysizes.js',
                     'js/main.js'
                 ],
                 dest: '<%= appconfig.dist %>/js/main.js'
