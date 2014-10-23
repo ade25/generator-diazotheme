@@ -5,7 +5,7 @@
   {% if page.title == "Bootstrap" %}
     {{ page.title }}
   {% else %}
-    {{ page.title }} &middot; Brandname
+    {{ page.title }} &middot; <%= _.slugify(themeName) %>
   {% endif %}
 </title>
 <link href="{{ page.base_url }}dist/css/<%= _.slugify(themeName) %>.min.css" rel="stylesheet">
