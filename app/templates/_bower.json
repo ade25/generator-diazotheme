@@ -10,6 +10,7 @@
     "hideShowPassword": "~2.0.3",
     "holderjs": "~2.1.0",
     "jquery": ">= 1.9.0",
+    "lazysizes": "git@github.com:aFarkas/lazysizes.git#master",
     "modernizr": "~2.6.2"
   },
   "devDependencies": {
