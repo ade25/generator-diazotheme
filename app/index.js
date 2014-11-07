@@ -54,6 +54,7 @@ DiazothemeGenerator.prototype.app = function app() {
   this.template('_manifest.cfg', 'manifest.cfg');
   this.copy('Gruntfile.js', 'Gruntfile.js');
   this.copy('Makefile', 'Makefile');
+  this.copy('README.md', 'README.md');
   this.template('index.html', 'index.html');
   this.template('signin.html', 'signin.html');
   this.template('_bower.json', 'bower.json');
