@@ -34,7 +34,6 @@
                 />
 
             <drop theme="/html/head/style" />
-            <drop theme="/html/head/script" />
             <drop theme="/html/head/link" />
 
             <!-- Drop scripts from theme footer if present -->
@@ -101,6 +100,27 @@
                 css:theme-children="#app-signin-content"
                 css:if-content="body.template-pwreset_finish" />
 
+
+        <!-- Document First Heading -->
+        <replace css:content=".documentFirstHeading">
+            <div class="app-page-header">
+                <h1 class="app-page-title">
+                    <xsl:apply-templates />
+                </h1>
+            </div>
+        </replace>
+        <!-- Document lead description -->
+        <replace css:content=".documentDescription">
+            <p class="app-page-abstract">
+                <xsl:apply-templates />
+            </p>
+        </replace>
+        <!-- Add classes to content core -->
+         <replace css:content="#content-core">
+             <div class="app-page-content" id="content-core">
+                 <xsl:apply-templates />
+             </div>
+         </replace>
 
         <!-- Document Content -->
         <replace css:content-children="#content"
