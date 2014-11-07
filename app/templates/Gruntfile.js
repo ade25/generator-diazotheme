@@ -192,7 +192,6 @@ module.exports = function (grunt) {
         },
         filerev_replace: {
             options: { assets_root: '<%= appconfig.dist %>' },
-            compiled_assets: { src: '<%= appconfig.dist %>/*.{css,js}' },
             views: {
                 options: { views_root: '<%= appconfig.dist %>' },
                 src: '<%= appconfig.dist %>/*.html'
@@ -329,7 +328,11 @@ module.exports = function (grunt) {
                     ]
                 }
             },
-            dist: { options: { base: '<%= appconfig.dist %>' } }
+            dist: {
+                options: {
+                    base: '<%= appconfig.dist %>'
+                }
+            }
         },
         concurrent: {
             cj: [
