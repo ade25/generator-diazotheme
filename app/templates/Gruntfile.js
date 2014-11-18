@@ -271,6 +271,49 @@ module.exports = function (grunt) {
                 recursive: true
             }
         },
+        replace: {
+            dist: {
+                options: {
+                    patterns: [
+                        {
+                            match: '../../assets/',
+                            replacement: '../assets/'
+                        },
+                        {
+                            match: '../assets/',
+                            replacement: 'assets/'
+                        },
+                        {
+                            match: '../../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
+                            replacement: '../css/<%= pkg.name %>.min.css'
+                        },
+                        {
+                            match: '../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
+                            replacement: 'css/<%= pkg.name %>.min.css'
+                        },
+                        {
+                            match: '../../<%= appconfig.dist %>/js/*.js',
+                            replacement: '../js/<%= pkg.name %>.min.js'
+                        },
+                        {
+                            match: '../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
+                            replacement: 'js/<%= pkg.name %>.min.js'
+                        }
+                    ],
+                    usePrefix: false,
+                    preserveOrder: true
+                },
+                files: [{
+                        expand: true,
+                        cwd: '<%= appconfig.dev %>',
+                        src: [
+                            '*.html',
+                            '{,*/}*.html'
+                        ],
+                        dest: '<%= appconfig.dev %>'
+                    }]
+            }
+        },
         validation: {
             options: {
                 charset: 'utf-8',
