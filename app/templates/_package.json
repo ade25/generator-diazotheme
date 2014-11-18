@@ -40,6 +40,7 @@
     "grunt-jekyll": "~0.4.2",
     "grunt-jscs": "~0.6.2",
     "grunt-newer": "~0.6.0",
+    "grunt-pagespeed": "~0.3.0",
     "grunt-replace": "^0.8.0",
     "grunt-sed": "~0.1.1",
     "grunt-svgmin": "^1.0.0",
