@@ -1,6 +1,6 @@
 {
   "name": "<%= _.slugify(themeName) %>",
-  "descritpion": "Theme and frontend for <%= _.slugify(themeName) %>",
+  "description": "Theme and frontend for <%= _.slugify(themeName) %>",
   "version": "1.0.0",
   "homepage": "http://ade25.de/<%= _.slugify(themeName) %>",
   "author": "Ade25",
