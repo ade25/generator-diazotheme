@@ -20,7 +20,7 @@
         <theme href="dist/index.html" />
 
         <replace css:theme="title" css:content="title" />
-       <after theme="/html/head/title" css:content="base" />
+        <after theme="/html/head/title" css:content="base" />
         <!-- Add meta tags -->
         <drop theme="/html/head/meta" />
 

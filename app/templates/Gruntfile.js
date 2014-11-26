@@ -5,7 +5,8 @@ module.exports = function (grunt) {
     grunt.initConfig({
         appconfig: {
             dev: require('./bower.json').appPath || '_site',
-            dist: 'dist'
+            dist: 'dist',
+            diazoPrefix: '/++theme++<%= pkg.name %>.sitetheme'
         },
         pkg: grunt.file.readJSON('package.json'),
         banner: '/*!\n' + '* <%= pkg.name %> v<%= pkg.version %> by Ade25\n' + '* Copyright <%= pkg.author %>\n' + '* Licensed under <%= pkg.licenses %>.\n' + '*\n' + '* Designed and built by ade25\n' + '*/\n',
@@ -31,8 +32,7 @@ module.exports = function (grunt) {
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/modernizr/modernizr.js',
                     'bower_components/bootstrap/dist/js/bootstrap.js',
-                    'bower_components/hideShowPassword/hideShowPassword.js',
-                    'bower_components/lazysizes/lazysizes.js',
+                    'bower_components/blazy/blazy.js',
                     'js/main.js'
                 ],
                 dest: '<%= appconfig.dist %>/js/<%= pkg.name %>.js'
@@ -40,8 +40,7 @@ module.exports = function (grunt) {
             theme: {
                 src: [
                     'bower_components/bootstrap/dist/js/bootstrap.js',
-                    'bower_components/hideShowPassword/hideShowPassword.js',
-                    'bower_components/lazysizes/lazysizes.js',
+                    'bower_components/blazy/blazy.js',
                     'js/main.js'
                 ],
                 dest: '<%= appconfig.dist %>/js/main.js'
@@ -234,42 +233,73 @@ module.exports = function (grunt) {
                     }]
             }
         },
-        sed: {
-            cleanAssetsPath: {
-                path: '<%= appconfig.dist %>/',
-                pattern: '../../assets/',
-                replacement: '../assets/',
-                recursive: true
-            },
-            cleanCSSFP: {
-                path: '<%= appconfig.dist %>/',
-                pattern: '../../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
-                replacement: '../css/<%= pkg.name %>.min.css',
-                recursive: true
-            },
-            cleanCSS: {
-                path: '<%= appconfig.dist %>/',
-                pattern: '../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
-                replacement: 'css/<%= pkg.name %>.min.css',
-                recursive: true
-            },
-            cleanJSFP: {
-                path: '<%= appconfig.dist %>/',
-                pattern: '../../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
-                replacement: '../js/<%= pkg.name %>.min.js',
-                recursive: true
-            },
-            cleanJS: {
-                path: '<%= appconfig.dist %>/',
-                pattern: '../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
-                replacement: 'js/<%= pkg.name %>.min.js',
-                recursive: true
-            },
-            cleanImgPath: {
-                path: '<%= appconfig.dist %>/',
-                pattern: '../dist/assets/img/',
-                replacement: 'assets/img/',
-                recursive: true
+        replace: {
+            dist: {
+                options: {<% if (!diazoTheme) { %>
+                    patterns: [
+                        {
+                            match: '../../assets/',
+                            replacement: 'assets/'
+                        },
+                        {
+                            match: '../assets/',
+                            replacement: 'assets/'
+                        },
+                        {
+                            match: '../../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
+                            replacement: 'css/<%= pkg.name %>.min.css'
+                        },
+                        {
+                            match: '../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
+                            replacement: 'css/<%= pkg.name %>.min.css'
+                        },
+                        {
+                            match: '../../<%= appconfig.dist %>/js/*.js',
+                            replacement: 'js/<%= pkg.name %>.min.js'
+                        },
+                        {
+                            match: '../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
+                            replacement: 'js/<%= pkg.name %>.min.js'
+                        }
+                    ],<% } %><% if (diazoTheme) { %>
+                    patterns: [
+                        {
+                            match: '../../assets/',
+                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/assets/'
+                        },
+                        {
+                            match: '../assets/',
+                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/assets/'
+                        },
+                        {
+                            match: '../../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
+                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/css/<%= pkg.name %>.min.css'
+                        },
+                        {
+                            match: '../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
+                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/css/<%= pkg.name %>.min.css'
+                        },
+                        {
+                            match: '../../<%= appconfig.dist %>/js/*.js',
+                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/js/<%= pkg.name %>.min.js'
+                        },
+                        {
+                            match: '../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
+                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/js/<%= pkg.name %>.min.js'
+                        }
+                    ],<% } %>
+                    usePrefix: false,
+                    preserveOrder: true
+                },
+                files: [{
+                        expand: true,
+                        cwd: '<%= appconfig.dev %>',
+                        src: [
+                            '*.html',
+                            '{,*/}*.html'
+                        ],
+                        dest: '<%= appconfig.dev %>'
+                    }]
             }
         },
         validation: {
@@ -292,7 +322,7 @@ module.exports = function (grunt) {
                 options: { livereload: true }
             },
             styles: {
-                files: ['<%= appconfig.dev %>/styles/{,*/}*.css'],
+                files: ['<%= appconfig.dev %>/css/{,*/}*.css'],
                 tasks: [
                     'newer:copy:styles',
                     'autoprefixer'
@@ -300,7 +330,7 @@ module.exports = function (grunt) {
             },
             less: {
                 files: 'less/*.less',
-                tasks: ['less'],
+                tasks: ['less-compile'],
                 options: { spawn: false }
             },
             gruntfile: { files: ['Gruntfile.js'] },
@@ -308,7 +338,7 @@ module.exports = function (grunt) {
                 options: { livereload: '<%= connect.options.livereload %>' },
                 files: [
                     '<%= appconfig.dev %>/{,*/}*.html',
-                    '.tmp/styles/{,*/}*.css',
+                    '<%= appconfig.dev %>/{,*/}*.css',
                     '<%= appconfig.dev %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
@@ -387,11 +417,16 @@ module.exports = function (grunt) {
         'newer:copy',
         'newer:imagemin'
     ]);
-    grunt.registerTask('dist-cb', ['filerev']);
+    grunt.registerTask('dist-cb', [
+        'filerev'
+    ]);
+    grunt.registerTask('html', [
+        'jekyll:theme'
+    ]);
     grunt.registerTask('dist-html', [
         'jekyll:theme',
-        'htmlmin',
-        'sed'
+        'replace',
+        'htmlmin'
     ]);
     grunt.registerTask('dist-cc', [
         'test',
@@ -400,8 +435,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('dev', [
         'dist-css',
-        'dist-js',
-        'dist-html'
+        'dist-js'
     ]);
     grunt.registerTask('dist', [
         'clean',

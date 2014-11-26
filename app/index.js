@@ -27,15 +27,15 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
     },
     {
       type: 'confirm',
-      name: 'patternDevelopment',
-      message: 'Would you like to develop patterns based on plone mockup?',
+      name: 'diazoTheme',
+      message: 'Are you creating a Diazo theme?',
       default: false
     }
   ];
 
   this.prompt(prompts, function (props) {
     this.themeName = props.themeName;
-    this.patternDevelopment = props.patternDevelopment;
+    this.diazoTheme = props.diazoTheme;
 
     cb();
   }.bind(this));
@@ -50,8 +50,6 @@ DiazothemeGenerator.prototype.app = function app() {
   this.directory('overrides/', 'overrides/');
   this.mkdir('js');
   this.copy('main.js', 'js/main.js');
-  this.copy('rules.xml', 'rules.xml');
-  this.template('_manifest.cfg', 'manifest.cfg');
   this.copy('Gruntfile.js', 'Gruntfile.js');
   this.copy('Makefile', 'Makefile');
   this.template('index.html', 'index.html');
@@ -71,8 +69,8 @@ DiazothemeGenerator.prototype.projectfiles = function projectfiles() {
 };
 
 DiazothemeGenerator.prototype.patterns = function patterns() {
-  if (this.patternDevelopment) {
-    this.directory('bundles', 'js/bundles');
-    this.directory('patterns', 'js/patterns');
+  if (this.diazoTheme) {
+    this.template('_manifest.cfg', 'manifest.cfg');
+    this.copy('rules.xml', 'rules.xml');
   }
 };
