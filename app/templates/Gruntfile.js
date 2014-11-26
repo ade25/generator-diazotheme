@@ -104,7 +104,7 @@ module.exports = function (grunt) {
         criticalcss: {
             frontpage: {
                 options: {
-                    url: 'http://rms.kreativkombinat.de',
+                    url: 'http://<%= pkg.name %>.kreativkombinat.de',
                     width: 1200,
                     height: 900,
                     outputfile: '<%= appconfig.dist %>/css/critical.css',
