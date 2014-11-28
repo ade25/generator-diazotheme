@@ -19,7 +19,7 @@ body {
 }
 
 // Set font weights if webfont is active
-.ws-active {
+.wf-active {
     // Default twbs weight for headings 500 not provided by Open Sans
     @headings-font-weight: 600;
     b,
@@ -31,8 +31,8 @@ body {
 // prevent fake bolds
 b,
 strong {
-    font-weight: 600;
-    .ws-active & {
+    font-weight: 700;
+    .wf-active & {
         font-weight: 600;
     }
 }
@@ -128,17 +128,6 @@ div.riform .label {
 .pattern-pickadate-wrapper .picker__select--month,
 .pattern-pickadate-wrapper .picker__select--year {
     display: inline-block;
-}
-
-// Headroom.js to hide the toolbar on scroll
-.headroom {
-    .transition(transform 200ms linear);
-}
-.headroom--pinned {
-    .translate(0%, 0%);
-}
-.headroom--unpinned {
-    .translate(0, -100%);
 }
 
 // Force search button to display styled
