@@ -21,6 +21,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "tmi": "^0.1.4",
     "yeoman-generator": "~0.13.0"
   },
   "devDependencies": {
