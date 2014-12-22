@@ -11,7 +11,6 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         banner: '/*!\n' + '* <%= pkg.name %> v<%= pkg.version %> by Ade25\n' + '* Copyright <%= pkg.author %>\n' + '* Licensed under <%= pkg.licenses %>.\n' + '*\n' + '* Designed and built by ade25\n' + '*/\n',
         jqueryCheck: 'if (typeof jQuery === "undefined") { throw new Error("We require jQuery") }\n\n',
-        clean: { dist: ['<%= appconfig.dist %>'] },
         jshint: {
             options: { jshintrc: 'js/.jshintrc' },
             grunt: { src: 'Gruntfile.js' },
@@ -344,6 +343,38 @@ module.exports = function (grunt) {
                     }]
             }
         },
+        clean: {
+            dist: {
+                files: [{
+                        dot: true,
+                        src: ['<%= config.dist %>']
+                    }]
+            },
+            revved: {
+                files: [{
+                        dot: true,
+                        src: [
+                            '<%= config.dist %>/js/*.min.*.js',
+                            '<%= config.dist %>/css/*.min.*.css'
+                        ]
+                    }]
+            },
+            assets: {
+                files: [{
+                        dot: true,
+                        src: ['<%= config.dist %>/assets/*']
+                    }]
+            },
+            server: {
+                files: [{
+                        dot: true,
+                        src: [
+                            '<%= config.dist %>/*',
+                            '!<%= config.dist %>/assets'
+                        ]
+                    }]
+            }
+        },
         validation: {
             options: {
                 charset: 'utf-8',
@@ -363,16 +394,18 @@ module.exports = function (grunt) {
                 tasks: ['newer:jshint:all'],
                 options: { livereload: true }
             },
-            styles: {
-                files: ['<%= appconfig.dev %>/css/{,*/}*.css'],
-                tasks: [
-                    'newer:copy:styles',
-                    'autoprefixer'
-                ]
+            html: {
+                files: ['*.html'],
+                tasks: ['jekyll:theme', 'replace', 'htmlmin']
             },
             less: {
                 files: 'less/*.less',
-                tasks: ['less-compile'],
+                tasks: [
+                    'less',
+                    'autoprefixer',
+                    'csscomb',
+                    'cssmin'
+                ],
                 options: { spawn: false }
             },
             gruntfile: { files: ['Gruntfile.js'] },
@@ -432,7 +465,8 @@ module.exports = function (grunt) {
             ]);
         }
         grunt.task.run([
-            'autoprefixer',
+            'js',
+            'css',
             'connect:livereload',
             'watch'
         ]);
@@ -441,19 +475,17 @@ module.exports = function (grunt) {
         'jekyll',
         'validation'
     ]);
-    grunt.registerTask('unit-test', ['qunit']);
-    var testSubtasks = [
-            'dist-css',
-            'jshint',
-            'validate-html'
-        ];
-    grunt.registerTask('test', testSubtasks);
-    grunt.registerTask('dist-js', [
+    grunt.registerTask('test', [
+        'css',
+        'jshint',
+        'validate-html'
+    ]);
+    grunt.registerTask('js', [
         'concat',
         'uglify'
     ]);
     grunt.registerTask('less-compile', ['less:compileTheme']);
-    grunt.registerTask('dist-css', [
+    grunt.registerTask('css', [
         'less-compile',
         'autoprefixer',
         'csscomb',
@@ -463,32 +495,39 @@ module.exports = function (grunt) {
         'newer:copy',
         'newer:imagemin'
     ]);
-    grunt.registerTask('dist-cb', [
-        'filerev'
+    grunt.registerTask('cb', [
+        'clean:revved',
+        'filerev:assets',
+        'usemin'
     ]);
+    grunt.registerTask('templates', ['jekyll:theme']);
     grunt.registerTask('html', [
-        'jekyll:theme'
-    ]);
-    grunt.registerTask('dist-html', [
-        'jekyll:theme',
+        'templates',
         'replace',
         'htmlmin'
     ]);
     grunt.registerTask('dist-cc', [
         'test',
-        'concurrent:cj',
-        'concurrent:ha'
+        'concurrent:cj'
     ]);
     grunt.registerTask('dev', [
-        'dist-css',
-        'dist-js'
+        'html',
+        'css'
     ]);
     grunt.registerTask('dist', [
-        'clean',
-        'dist-css',
-        'dist-js',
-        'dist-html',
-        'dist-assets'
+        'clean:server',
+        'css',
+        'js',
+        'html',
+        'cb'
+    ]);
+    grunt.registerTask('build', [
+        'clean:server',
+        'css',
+        'js',
+        'html',
+        'filerev:assets',
+        'usemin'
     ]);
     grunt.registerTask('compile-theme', ['dist']);
     grunt.registerTask('default', ['dev']);
