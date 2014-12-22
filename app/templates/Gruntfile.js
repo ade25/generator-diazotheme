@@ -173,7 +173,7 @@ module.exports = function (grunt) {
             options: {
                 encoding: 'utf8',
                 algorithm: 'md5',
-                length: 8
+                length: 12
             },
             assets: {
                 src: [
@@ -188,11 +188,28 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        filerev_replace: {
-            options: { assets_root: '<%= appconfig.dist %>' },
-            views: {
-                options: { views_root: '<%= appconfig.dist %>' },
-                src: '<%= appconfig.dist %>/*.html'
+        usemin: {
+            html: ['<%= config.dist %>/{,*/}*.html'],
+            htmlcustom: ['<%= config.dist %>/*.html'],
+            css: ['<%= config.dist %>/css/*.css'],
+            options: {
+                assetsDirs: [
+                    '<%= config.dist %>',
+                    '<%= config.dist %>/css',
+                    '<%= config.dist %>/assets'
+                ],
+                patterns: {
+                    htmlcustom: [
+                        [
+                            /(?:src=|url\(\s*)['"]?([^'"\)(\?|#)]+)['"]?\s*\)?/gm,
+                            'Replacing src references in inline javascript'
+                        ],
+                        [
+                            /(?:data-src=|url\(\s*)['"]?([^'"\)(\?|#)]+)['"]?\s*\)?/gm,
+                            'Update the img data-src attributes with the new img filenames'
+                        ]
+                    ]
+                }
             }
         },
         qunit: {
@@ -286,49 +303,6 @@ module.exports = function (grunt) {
                             replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/js/<%= pkg.name %>.min.js'
                         }
                     ],<% } %>
-                    usePrefix: false,
-                    preserveOrder: true
-                },
-                files: [{
-                        expand: true,
-                        cwd: '<%= appconfig.dev %>',
-                        src: [
-                            '*.html',
-                            '{,*/}*.html'
-                        ],
-                        dest: '<%= appconfig.dev %>'
-                    }]
-            }
-        },
-        replace: {
-            dist: {
-                options: {
-                    patterns: [
-                        {
-                            match: '../../assets/',
-                            replacement: '../assets/'
-                        },
-                        {
-                            match: '../assets/',
-                            replacement: 'assets/'
-                        },
-                        {
-                            match: '../../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
-                            replacement: '../css/<%= pkg.name %>.min.css'
-                        },
-                        {
-                            match: '../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
-                            replacement: 'css/<%= pkg.name %>.min.css'
-                        },
-                        {
-                            match: '../../<%= appconfig.dist %>/js/*.js',
-                            replacement: '../js/<%= pkg.name %>.min.js'
-                        },
-                        {
-                            match: '../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
-                            replacement: 'js/<%= pkg.name %>.min.js'
-                        }
-                    ],
                     usePrefix: false,
                     preserveOrder: true
                 },
@@ -484,7 +458,9 @@ module.exports = function (grunt) {
         'concat',
         'uglify'
     ]);
-    grunt.registerTask('less-compile', ['less:compileTheme']);
+    grunt.registerTask('less-compile', [
+        'less:compileTheme'
+    ]);
     grunt.registerTask('css', [
         'less-compile',
         'autoprefixer',
