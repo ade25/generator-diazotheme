@@ -249,71 +249,90 @@ module.exports = function (grunt) {
             }
         },
         replace: {
-            dist: {
-                options: {<% if (!diazoTheme) { %>
+            server: {
+                options: {
                     patterns: [
                         {
                             match: '../../assets/',
-                            replacement: 'assets/'
+                            replacement: '../assets/'
                         },
                         {
                             match: '../assets/',
                             replacement: 'assets/'
                         },
                         {
-                            match: '../../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
+                            match: '../../<%= config.dist %>/css/<%= pkg.name %>.min.css',
+                            replacement: '../css/<%= pkg.name %>.min.css'
+                        },
+                        {
+                            match: '../<%= config.dist %>/css/<%= pkg.name %>.min.css',
                             replacement: 'css/<%= pkg.name %>.min.css'
                         },
                         {
-                            match: '../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
-                            replacement: 'css/<%= pkg.name %>.min.css'
+                            match: '../../<%= config.dist %>/js/<%= pkg.name %>.min.js',
+                            replacement: '../js/<%= pkg.name %>.min.js'
                         },
                         {
-                            match: '../../<%= appconfig.dist %>/js/*.js',
-                            replacement: 'js/<%= pkg.name %>.min.js'
-                        },
-                        {
-                            match: '../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
+                            match: '../<%= config.dist %>/js/<%= pkg.name %>.min.js',
                             replacement: 'js/<%= pkg.name %>.min.js'
                         }
-                    ],<% } %><% if (diazoTheme) { %>
-                    patterns: [
-                        {
-                            match: '../../assets/',
-                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/assets/'
-                        },
-                        {
-                            match: '../assets/',
-                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/assets/'
-                        },
-                        {
-                            match: '../../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
-                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/css/<%= pkg.name %>.min.css'
-                        },
-                        {
-                            match: '../<%= appconfig.dist %>/css/<%= pkg.name %>.min.css',
-                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/css/<%= pkg.name %>.min.css'
-                        },
-                        {
-                            match: '../../<%= appconfig.dist %>/js/*.js',
-                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/js/<%= pkg.name %>.min.js'
-                        },
-                        {
-                            match: '../<%= appconfig.dist %>/js/<%= pkg.name %>.min.js',
-                            replacement: '<%= appconfig.diazoPrefix %>/<%= appconfig.dist %>/js/<%= pkg.name %>.min.js'
-                        }
-                    ],<% } %>
+                    ],
                     usePrefix: false,
                     preserveOrder: true
                 },
                 files: [{
                         expand: true,
-                        cwd: '<%= appconfig.dev %>',
+                        cwd: '<%= config.dev %>',
                         src: [
                             '*.html',
                             '{,*/}*.html'
                         ],
-                        dest: '<%= appconfig.dev %>'
+                        dest: '<%= config.dev %>'
+                    }]
+            },
+            dist: {
+                options: {
+                    patterns: [
+                        {
+                            match: '../../assets/',
+                            replacement: 'assets/'
+                        },
+                        {
+                            match: '../assets/',
+                            replacement: 'assets/'
+                        },
+                        {
+                            match: 'assets/',
+                            replacement: '<%= config.diazoPrefix %>/<%= config.dist %>/assets/'
+                        },
+                        {
+                            match: '../css/',
+                            replacement: 'css/'
+                        },
+                        {
+                            match: 'css/',
+                            replacement: '<%= config.diazoPrefix %>/<%= config.dist %>/css/'
+                        },
+                        {
+                            match: '../js/<%= pkg.name %>',
+                            replacement: 'js/<%= pkg.name %>'
+                        },
+                        {
+                            match: 'js/<%= pkg.name %>',
+                            replacement: '<%= config.diazoPrefix %>/<%= config.dist %>/js/<%= pkg.name %>'
+                        }
+                    ],
+                    usePrefix: false,
+                    preserveOrder: true
+                },
+                files: [{
+                        expand: true,
+                        cwd: '<%= config.dist %>',
+                        src: [
+                            '*.html',
+                            '{,*/}*.html'
+                        ],
+                        dest: '<%= config.dist %>'
                     }]
             }
         },
