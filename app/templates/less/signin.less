@@ -19,22 +19,21 @@
 }
 
 .app-signin-header {
-  color: @gray-dark;
+  padding-bottom: 1.5rem;
+  text-align: center;
 }
+
 .app-signin-title {
   font-weight: 300;
+  color: @gray-dark;
 }
 
 .app-signin-content {
-  padding: @line-height-computed 0;
+  padding-bottom: 1.5rem;
 }
 
 .app-signin-form {
 
-}
-
-.app-signin-field {
-  position: relative;
 }
 
 .app-signin-group {
@@ -52,8 +51,13 @@
   }
 }
 
+
+.app-signin-field {
+  position: relative;
+}
+
 .app-signin-control {
-  padding: ceil((@line-height-computed / 2)) 0 @line-height-computed;
+  padding-bottom: 1rem;
   &.app-signin-control-bordered {
     border-bottom: 1px dotted @gray-light;
   }
