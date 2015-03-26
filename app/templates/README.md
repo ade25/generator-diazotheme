@@ -2,8 +2,19 @@
 
 This theme project uses the Grunt task-runner as a build system to compile a production ready distribution.
 
+While the setup builds upon a production ready closed standalone static application it can also generate a Plone deployment build and provide a development environment for Plone integration via Diazo transform engine.
+
 ## Available Grunt commands
 
+### grunt dist (Build production ready distribution)
+
+Regenerates the /dist/ directory with compiled and minified CSS and JavaScript files and builds the index files via Jekyll task. Includes revved css and js resources for cache busting optimized for pagespeed and performance.
+
+**Note**: this task should ideally only be run prior to pushing and deploying changes to the production server and is not suitable for development use since it might require extensive processing time.
+
+```bash
+$ grunt dist
+```
 
 ### grunt dev (Just compile CSS and JavaScript)
 
@@ -11,26 +22,71 @@ This theme project uses the Grunt task-runner as a build system to compile a pro
 - concat javascript resources
 - build html theme templates
 
-### grunt dist (Build production ready distribution)
-
-Regenerates the /dist/ directory with compiled and minified CSS and JavaScript files and builds the index files via Jekyll task. 
-
+```bash
+$ grunt dev
+```
 
 ### grunt watch (Watch)
 
 Watches the Less source files and automatically recompiles them to CSS whenever you save a change.
 
-### grunt test (Run tests)
+```bash
+$ grunt watch
+```
+
+### grunt test (Run tests **deprecated**)
 
 Runs JSHint and runs the QUnit tests headlessly in PhantomJS.
 grunt docs (Build & test the docs assets)
 
 Builds and tests CSS, JavaScript, and other assets which are used when running the documentation locally via jekyll serve.
 
-### grunt (Build absolutely everything and run tests)
+```bash
+$ grunt test
+```
 
-Compiles and minifies CSS and JavaScript, builds the documentation website, runs the HTML5 validator against the docs, regenerates the Customizer assets, and more. Requires Jekyll. Usually only necessary if you're hacking on Bootstrap itself.
+### grunt serve (Run server with livereload)
 
+Compiles and minifies CSS and JavaScript, builds the templates. Than a browser
+tab is opened and the site served from `http://localhost:9000`. The watch task rebuilds all css and html when code is modified.
+
+Note: install the *livereload* extension in your browser of choice (available for Firefox and Chrome) to enabled autoreload.
+
+```bash
+$ grunt serve
+```
+
+## Diazo theme development
+
+When working on a Plone Diazo theme and testing the integration via rules, you might need a local development setup tailored for this purpose. YOu have several options:
+
+### grunt pat (Build theme for *plone.app.theming* use)
+
+Compiles all css and javascript and replaces the path to assets with the automatically configured diazo theme prefix (e.g. `/++theme++project.sitetheme/dist/`) and allows to serve the theme resources directly through plone. This might require a Plone Resource Registry setup to function propertly. You have been warned.
+
+```bash
+$ grunt pat
+```
+
+### grunt diazo (Build theme for diazo server)
+
+Compiles all css and javascript and replaces the path to assets with the hostname and port url of the grunt/node server. This allowes for complete control while developing a Diazo theme.
+
+```bash
+$ grunt diazo
+```
+
+### grunt serve:diazo (Livereload enabled server for diazo development)
+
+Uses `grunt diazo` under the hood to start a server listening on `http://localhost:9000` and providing the compiled assets to the theme templates while served from Plone. The server also watches for changes so you can adjust the theme on the fly.
+
+1. Start the plone instance in the foreground
+2. Start the theme server
+
+```bash
+$ grunt serve:diazo
+```
+ 
 
 ## Troubleshooting
 

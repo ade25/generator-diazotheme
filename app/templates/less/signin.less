@@ -82,3 +82,87 @@
   padding: @line-height-computed;
 }
 
+.app-signin-btn {
+   margin-bottom: 1.5rem;
+   font-weight: 300;
+}
+
+
+//== Mailcheck suggestion
+//
+//## Suggestions for email address typos by mailcheck.js
+//## recieve a custom styling
+.app-signin-suggestion {
+    display: block;
+    position: absolute;
+    top: -5px;
+    right: -265px;
+    width: 260px;
+    margin-top: 5px;
+    padding: 0.5rem 5px;
+    color: @gray-lighter !important;
+    font-size: 0.75rem;
+    text-align: center;
+    text-decoration: none;
+    background-color: @gray-dark;
+    &:hover {
+      color: #fff !important;
+    }
+}
+
+
+// Testing the floeat label pattern
+/*
+ * Default jvFloat theme.
+ * modify it as you wish!
+ */
+
+.jvFloat {
+  position: relative;
+  display: block;
+  margin-top: 1.5rem;
+}
+
+.jvFloat .placeHolder.required {
+  color: red;
+}
+
+/* Start CSS3 Animations on supported browser */
+.jvFloat .placeHolder {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  font-weight: 400;
+  color: @gray;
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+  -webkit-transition: -webkit-transform 150ms, opacity 100ms, visibility 100ms;
+  transition: transform 150ms, opacity 100ms, visibility 100ms;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/*Allows textarea floating placeholder to be positioned distinctly from the normal .placeHolder class
+ * This is required when working with Multiline text areas
+ */
+.jvFloat .placeHolder.textarea {
+  /*top: 0px;*/
+}
+
+.jvFloat .placeHolder.active {
+  display: block;
+  width: 100%;
+  visibility: visible;
+  -webkit-transform: translate(0, -1em);
+  -moz-transform: translate(0, -1em);
+  -o-transform: translate(0, -1em);
+  -ms-transform: translate(0, -1em);
+  transform: translate(0, -1em);
+  -webkit-transition: -webkit-transform 100ms, opacity 120ms, visibility 120ms;
+  transition: transform 100ms, opacity 120ms, visibility 120ms;
+  opacity: 1;
+}
+
