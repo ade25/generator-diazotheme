@@ -6,6 +6,7 @@
     "animate.css": "~3.0.0",
     "blazy": "*",
     "bootstrap": "git@github.com:twbs/bootstrap.git#master",
+    "bootstrap-without-jquery": "~0.6.1",
     "diazo-plone": "git@github.com:ade25/diazo-plone.git#master",
     "font-awesome": "4.2.0",
     "hideShowPassword": "~2.0.3",

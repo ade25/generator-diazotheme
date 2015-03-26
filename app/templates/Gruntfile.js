@@ -32,9 +32,7 @@ module.exports = function (grunt) {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/modernizr/modernizr.js',
-                    'bower_components/bootstrap/js/transition.js',
-                    'bower_components/bootstrap/js/collapse.js',
-                    'bower_components/bootstrap/js/dropdown.js',
+                    'bower_components/bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js',
                     'bower_components/mailcheck/src/mailcheck.js',
                     'bower_components/JVFloat/jvfloat.js',
                     'bower_components/hideShowPassword/hideShowPassword.js',
@@ -47,9 +45,7 @@ module.exports = function (grunt) {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/modernizr/modernizr.js',
-                    'bower_components/bootstrap/js/transition.js',
-                    'bower_components/bootstrap/js/collapse.js',
-                    'bower_components/bootstrap/js/dropdown.js',
+                    'bower_components/bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js',
                     'bower_components/mailcheck/src/mailcheck.js',
                     'bower_components/hideShowPassword/hideShowPassword.js',
                     'bower_components/blazy/blazy.js',
