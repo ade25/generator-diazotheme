@@ -2,8 +2,6 @@
 
 [Yeoman](http://yeoman.io) generator that scaffolds out a front-end theme directory.
 
-![](http://i.imgur.com/uKTT2Hj.png)
-
 ## Features
 
 * CSS Autoprefixing
@@ -21,17 +19,41 @@
 
 ### What is Yeoman?
 
-Trick question. It's not a thing. It's this guy:
+Yeoman ives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
 
-![](http://i.imgur.com/JHaAlBJ.png)
+#### Install Node/npm (the clean way)
 
-Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
+If you intent to do frontend development with `npm`, it is recommended you setup a usable development environment with the help of [nvm](https://github.com/creationix/nvm).
 
-Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
+In order to use *nvm* you need to uninstall/remove any previously installed Node/npm versions. Follow the instructions on [npmjs.com](https://docs.npmjs.com/misc/removing-npm) or remove all traces of Node and npm by running the commands found [here](http://stackoverflow.com/questions/11177954/how-do-i-completely-uninstall-node-js-and-reinstall-from-beginning-mac-os-x/11178106#11178106).
+
+Then issue the following command to **install nvm**:
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.24.0/install.sh | bash
+```
+
+Setup the installed **node version manager** by sourcing the setup to your shell:
+
+```bash
+$ source ~/.nvm/nvm.sh
+```
+
+Note: to make this setting persist, add the source line to your `~/.profile` or `~/.bash_profile`. You can also create a file `~/.nvmrc` in your home folder containing a version number, e.g.`0.12.0`:
+
+```bash
+$ cat ~/.nvmrc
+0.12.0
+```
+
+After you have setup **npm** just open a Terminal window and install YEOMAN:
 
 ```
 $ npm install -g yo
 ```
+
+Done and ready to go!
+
 
 ### Generator Setup/Installation
 
