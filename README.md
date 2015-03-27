@@ -1,6 +1,20 @@
-# generator-diazotheme [![Build Status](https://secure.travis-ci.org/potzenheimer/generator-diazotheme.png?branch=master)](https://travis-ci.org/potzenheimer/generator-diazotheme)
+# generator-diazotheme
 
-A generator for [Yeoman](http://yeoman.io).
+[Yeoman](http://yeoman.io) generator that scaffolds out a front-end theme directory.
+
+![](http://i.imgur.com/uKTT2Hj.png)
+
+## Features
+
+* CSS Autoprefixing
+* Built-in preview server with LiveReload
+* Automagically compile LESS, JS
+* Automagically lint your scripts
+* Automagically wire up your Bower components
+* Awesome Image Optimization (via OptiPNG, pngquant, jpegtran and gifsicle)
+* Jekyll template generation
+* Cache busting for production use
+* Integration with `plone.app.theming` via replacement parts
 
 
 ## Getting Started
@@ -19,9 +33,7 @@ Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](
 $ npm install -g yo
 ```
 
-### Yeoman Generators
-
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
+### Generator Setup/Installation
 
 To install generator-diazotheme from npm, clone this repository and link the
 package to your local npm executable:
@@ -29,7 +41,7 @@ package to your local npm executable:
 ```
 $ git clone git@github.com:ade25/generator-diazotheme.git
 $ cd ./generator-diazotheme
-$ sudo npm link
+$ npm link
 ```
 
 Finally, initiate the generator:
