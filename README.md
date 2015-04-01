@@ -41,7 +41,7 @@ $ source ~/.nvm/nvm.sh
 
 Note: to make this setting persist, add the source line to your `~/.profile` or `~/.bash_profile`.
 
-** Install Node/NPM **
+**Install Node/NPM:**
 
 Install the latest stable version of **node** (which will include the matching release of **npm**) by running:
 
