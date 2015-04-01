@@ -39,14 +39,21 @@ Setup the installed **node version manager** by sourcing the setup to your shell
 $ source ~/.nvm/nvm.sh
 ```
 
-Note: to make this setting persist, add the source line to your `~/.profile` or `~/.bash_profile`. You can also create a file `~/.nvmrc` in your home folder containing a version number, e.g.`0.12.0`:
+Note: to make this setting persist, add the source line to your `~/.profile` or `~/.bash_profile`. You can also create a file `~/.nvmrc` in your home folder containing a version number, e.g.`0.12.0` (this shoul dmatch the desired node release):
 
 ```bash
 $ cat ~/.nvmrc
 0.12.0
 ```
 
-After you have setup **npm** just open a Terminal window and install YEOMAN:
+Install the latest stable version of **node** (which will include the matching release of **npm**) by running:
+
+```bash
+$ nvm install stable
+$ nvm alias default stable
+```
+
+After you have installed and setup **npm** just open a Terminal window and install YEOMAN:
 
 ```
 $ npm install -g yo
