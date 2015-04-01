@@ -75,7 +75,7 @@ $ cat ~/.nvmrc
 After you have installed and setup **npm** just open a Terminal window and install YEOMAN:
 
 ```
-$ npm install -g yo
+$ npm install -g yo bower grunt-cli gulp
 ```
 
 Done and ready to go!
