@@ -21,6 +21,21 @@
 
 Yeoman lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
 
+#### Prerequisites
+
+OS X sets a very conservative open files limit. In order to use the generated theme, you might want to adjust this by running the following commands:
+
+```bash
+$ echo kern.maxfiles=65536 | sudo tee -a /etc/sysctl.conf
+$ echo kern.maxfilesperproc=65536 | sudo tee -a /etc/sysctl.conf
+$ sudo sysctl -w kern.maxfiles=65536
+$ sudo sysctl -w kern.maxfilesperproc=65536
+$ ulimit -n 65536 65536
+```
+
+Tip: add the last line to your `.profile` or `.bash_profile` to set the limit for all new terminal sessions automagically.
+
+
 #### Install Node/npm (the clean way)
 
 If you intent to do frontend development with `npm`, it is recommended you setup a usable development environment with the help of [nvm](https://github.com/creationix/nvm).
