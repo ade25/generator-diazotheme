@@ -19,7 +19,7 @@
 
 ### What is Yeoman?
 
-Yeoman ives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
+Yeoman lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
 
 #### Install Node/npm (the clean way)
 
@@ -39,18 +39,22 @@ Setup the installed **node version manager** by sourcing the setup to your shell
 $ source ~/.nvm/nvm.sh
 ```
 
-Note: to make this setting persist, add the source line to your `~/.profile` or `~/.bash_profile`. You can also create a file `~/.nvmrc` in your home folder containing a version number, e.g.`0.12.0` (this shoul dmatch the desired node release):
+Note: to make this setting persist, add the source line to your `~/.profile` or `~/.bash_profile`.
 
-```bash
-$ cat ~/.nvmrc
-0.12.0
-```
+** Install Node/NPM **
 
 Install the latest stable version of **node** (which will include the matching release of **npm**) by running:
 
 ```bash
 $ nvm install stable
 $ nvm alias default stable
+```
+
+You can also create a file `~/.nvmrc` in your home folder containing a version number, e.g.`0.12.2` (this should match the desired default node release):
+
+```bash
+$ cat ~/.nvmrc
+0.12.2
 ```
 
 After you have installed and setup **npm** just open a Terminal window and install YEOMAN:
