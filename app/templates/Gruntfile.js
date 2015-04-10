@@ -24,11 +24,11 @@ module.exports = function (grunt) {
             src: { src: '<%= jshint.src.src %>' }
         },
         concat: {
-            options: {
-                banner: '<%= banner %>',
-                stripBanners: false
-            },
             dist: {
+                options: {
+                    banner: '<%= banner %>',
+                    stripBanners: true
+                },
                 src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/modernizr/modernizr.js',
@@ -42,11 +42,15 @@ module.exports = function (grunt) {
                 dest: '<%= config.dist %>/js/<%= pkg.name %>.js'
             },
             theme: {
+                options: {
+                    banner: "require(['jquery', 'pat-registry'], function($, Registry) {",
+                    footer: "});",
+                    stripBanners: true
+                },
                 src: [
-                    'bower_components/jquery/dist/jquery.js',
-                    'bower_components/modernizr/modernizr.js',
                     'bower_components/bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js',
                     'bower_components/mailcheck/src/mailcheck.js',
+                    'bower_components/JVFloat/jvfloat.js',
                     'bower_components/hideShowPassword/hideShowPassword.js',
                     'bower_components/blazy/blazy.js',
                     'js/main.js'
@@ -493,13 +497,6 @@ module.exports = function (grunt) {
                 tasks: ['concat', 'uglify'],
                 options: { livereload: true }
             },
-            styles: {
-                files: ['<%= config.dev %>/css/{,*/}*.css'],
-                tasks: [
-                    'newer:copy:styles',
-                    'autoprefixer'
-                ]
-            },
             html: {
                 files: ['*.html'],
                 tasks: ['jekyll:theme', 'replace:server', 'htmlmin']
@@ -513,15 +510,6 @@ module.exports = function (grunt) {
                     'cssmin'
                 ],
                 options: { spawn: false }
-            },
-            gruntfile: { files: ['Gruntfile.js'] },
-            livereload: {
-                options: { livereload: '<%= connect.options.livereload %>' },
-                files: [
-                    '<%= config.dev %>/{,*/}*.html',
-                    '<%= config.dev %>/{,*/}*.css',
-                    '<%= config.dev %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-                ]
             }
         },
         connect: {
