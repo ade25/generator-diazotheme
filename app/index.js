@@ -3,12 +3,11 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 
-
 var DiazothemeGenerator = module.exports = function DiazothemeGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
-  this.on('end', function () {
-    this.installDependencies({ skipInstall: options['skip-install'] });
+  this.on('end', function() {
+    this.installDependencies({skipInstall: options['skip-install']});
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -33,7 +32,7 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
     }
   ];
 
-  this.prompt(prompts, function (props) {
+  this.prompt(prompts, function(props) {
     this.themeName = props.themeName;
     this.diazoTheme = props.diazoTheme;
 
@@ -41,12 +40,11 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
-
 DiazothemeGenerator.prototype.app = function app() {
   this.directory('layouts/', '_layouts/');
   this.directory('includes/', '_includes/');
   this.directory('assets/', 'assets/');
-  this.directory('less/', 'less/');
+  this.directory('sass/', 'sass/');
   this.directory('overrides/', 'overrides/');
   this.mkdir('js');
   this.copy('main.js', 'js/main.js');
