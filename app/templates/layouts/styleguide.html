@@ -9,13 +9,23 @@
   </head>
   <body>
     <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <div class="app-styleguide">
+      <div class="sg-aside" id="sg-aside">
+        {% include layout/sg-sidebar.html %}
+      </div>
+      <div class="sg-main">
+        <div class="sg-content" role="main">
+              {{ content }}
+        </div>
+      </div>
+    </div>
 
-    <main class="app-main app-main-fullscreen" role="main">
-          {{ content }}
-    </main>
+    {% include base/javascript.html %}
+    <script>
+      var navigation = responsiveNav("sg-aside", {customToggle: ".sg-nav-toggle"});
+    </script>
     <div class="app-js-slot">
         {% include base/webfonts.html %}
     </div>
-    {% include base/javascript.html %}
   </body>
 </html>

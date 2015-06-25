@@ -5,23 +5,21 @@
 <!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
   <head>
     <!-- Meta, title, CSS, favicons, etc. -->
-    {% include head.html %}
+    {% include base/head.html %}
   </head>
   <body>
     <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
-    {% include toolbar-plone.html %}
-    <!-- App master nav -->
-    {% include navbar.html %}
-    {% include brandbar.html %}
+    {% include components/toolbar.html %}
+    {% include layout/header.html %}
 
-    <div class="app-content" role="main">
+    <main class="app-main" role="main">
           {{ content }}
-    </div>
+    </main>
 
-    {% include footer.html %}
-    {% include javascript.html %}
+    {% include layout/footer.html %}
+    {% include base/javascript.html %}
     <div class="app-js-slot">
-        {% include webfonts.html %}
+        {% include base/webfonts.html %}
     </div>
   </body>
 </html>
