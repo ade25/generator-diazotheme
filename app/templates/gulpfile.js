@@ -1,15 +1,57 @@
-var gulp = require('gulp'),
-    plumber = require('gulp-plumber'),
-    rename = require('gulp-rename');
-var autoprefixer = require('gulp-autoprefixer');
-var concat = require('gulp-concat');
-var jshint = require('gulp-jshint');
-var uglify = require('gulp-uglify');
-var imagemin = require('gulp-imagemin'),
-    cache = require('gulp-cache');
-var minifycss = require('gulp-minify-css');
-var sass = require('gulp-sass');
-var browserSync = require('browser-sync');
+import gulp from 'gulp';
+import gulpLoadPlugins from 'gulp-load-plugins';
+import browserSync from 'browser-sync';
+import del from 'del';
+import args from 'yargs';
+import {stream as wiredep} from 'wiredep';
+
+const $ = gulpLoadPlugins();
+const reload = browserSync.reload;
+
+var cp = require('child_process');
+var pkg = require('./package.json');
+
+var messages = {
+    jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
+};
+
+var basePaths = {
+    app: 'app',
+    dev: '_site',
+    dist: 'dist',
+    diazoPrefix: '/++theme++pkg.name.sitetheme',
+    bower: 'bower_components/'
+};
+
+var sourcesJS = {
+  base: [
+    basePaths.bower + 'bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js',
+    basePaths.bower + 'lazysizes/lazysizes.js',
+    basePaths.bower + 'flickity/dist/flickity.pkgd.js'
+  ],
+  all: [
+    basePaths.bower +'jquery/dist/jquery.js',
+    basePaths.bower +'modernizr/modernizr.js',
+    basePaths.bower + 'bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js',
+    basePaths.bower +'mailcheck/src/mailcheck.js',
+    basePaths.bower +'JVFloat/jvfloat.js',
+    basePaths.bower +'hideShowPassword/hideShowPassword.js',
+    basePaths.bower + 'lazysizes/lazysizes.js',
+    basePaths.bower + 'flickity/dist/flickity.pkgd.js'
+
+  ]
+}
+
+var isProduction = args.env === 'dist';
+
+/**
+ * Build the Jekyll Site
+ */
+gulp.task('jekyll-build', function (done) {
+    browserSync.notify(messages.jekyllBuild);
+    return cp.spawn('jekyll', ['build'], {stdio: 'inherit'})
+        .on('close', done);
+});
 
 gulp.task('browser-sync', function() {
   browserSync({
@@ -29,40 +71,55 @@ gulp.task('images', function(){
     .pipe(gulp.dest('dist/images/'));
 });
 
-gulp.task('styles', function(){
-  gulp.src(['sass/main.scss'])
-    .pipe(plumber({
-      errorHandler: function (error) {
-        console.log(error.message);
-        this.emit('end');
-    }}))
-    .pipe(sass({
-      includePaths: ['bower_components'],
-      loadPath: 'bower_components'
-    }))
-    .pipe(autoprefixer('last 2 versions'))
+//gulp.task('styles', () => {
+//    return gulp.src('app/styles/*.scss')
+//        .pipe($.plumber())
+//        .pipe($.sourcemaps.init())
+//        .pipe($.sass.sync({
+//            outputStyle: 'expanded',
+//            precision: 10,
+//            includePaths: ['.']
+//        }).on('error', $.sass.logError))
+//        .pipe($.autoprefixer({browsers: ['last 1 version']}))
+//        .pipe($.sourcemaps.write())
+//        .pipe(gulp.dest('.tmp/styles'))
+//        .pipe(reload({stream: true}));
+//});
+
+
+gulp.task('styles', () =>  {
+  return gulp.src('app/sass/main.scss')
+    .pipe($.plumber())
+    .pipe($.sourcemaps.init())
+    .pipe($.sass.sync({
+      outputStyle: 'expanded',
+      precision: 10,
+      includePaths: ['bower_components']
+    }).on('error', $.sass.logError))
+    .pipe($.autoprefixer({browsers: ['last 1 version']}))
+    .pipe(gulp.dest('dist/styles'))
+    .pipe($.minifyCss())
+    .pipe($.rename({suffix: '.min'}))
+    .pipe($.sourcemaps.write())
     .pipe(gulp.dest('dist/styles/'))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(minifycss())
-    .pipe(gulp.dest('dist/styles/'))
-    .pipe(browserSync.reload({stream:true}))
+    .pipe(reload({stream: true}));
 });
 
 gulp.task('scripts', function(){
-  return gulp.src('src/scripts/**/*.js')
-    .pipe(plumber({
+  return gulp.src(isProduction ? sourcesJS.all : sourcesJS.base)
+    .pipe($.plumber({
       errorHandler: function (error) {
         console.log(error.message);
         this.emit('end');
     }}))
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(concat('main.js'))
-    .pipe(gulp.dest('dist/scripts/'))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
-    .pipe(gulp.dest('dist/scripts/'))
-    .pipe(browserSync.reload({stream:true}))
+    .pipe($.jshint())
+    .pipe($.jshint.reporter('default'))
+    .pipe(concat(pkg.name + '.js'))
+    .pipe(gulp.dest(basePaths.dist + 'scripts/'))
+    .pipe($.rename({suffix: '.min'}))
+    .pipe($.uglify())
+    .pipe(gulp.dest(basePaths.dist + 'scripts/'))
+    .pipe(browserSync.reload({stream:true}));
 });
 
 gulp.task('default', ['browser-sync'], function(){
