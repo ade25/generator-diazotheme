@@ -28,7 +28,7 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
       type: 'confirm',
       name: 'diazoTheme',
       message: 'Are you creating a Diazo theme?',
-      default: false
+      default: true
     }
   ];
 
@@ -45,24 +45,23 @@ DiazothemeGenerator.prototype.app = function app() {
   this.directory('layouts/', 'app/_layouts/');
   this.directory('includes/', 'app/_includes/');
   this.directory('overrides/', 'overrides/');
-  this.mkdir('app/js');
-  this.copy('main.js', 'app/js/main.js');
+  this.mkdir('app/scripts');
+  this.copy('main.js', 'app/scripts/main.js');
   this.copy('gulpfile.js', 'gulpfile.babel.js');
   this.copy('Gruntfile.js', 'Gruntfile.js');
   this.copy('Makefile', 'Makefile');
   this.copy('README.md', 'README.md');
-  this.template('_bower.json', 'bower.json');
   this.template('_config.json', 'config.json');
   this.template('_config.yml', '_config.yml');
   this.template('_package.json', 'package.json');
 };
 
 DiazothemeGenerator.prototype.projectfiles = function projectfiles() {
-  this.copy('bowerrc', '.bowerrc');
+  this.copy('babelrc', '.babelrc');
   this.copy('gitignore', '.gitignore');
   this.copy('editorconfig', '.editorconfig');
-  this.copy('jshintrc', 'js/.jshintrc');
-  this.copy('jscsrc', 'js/.jscsrc');
+  this.copy('jshintrc', 'app/scripts/.jshintrc');
+  this.copy('jscsrc', 'app/scripts/.jscsrc');
 };
 
 DiazothemeGenerator.prototype.patterns = function patterns() {

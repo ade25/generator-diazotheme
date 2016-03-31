@@ -7,37 +7,50 @@
 //
 //## Use a grid layout for card listings
 .app-cards {
-  display: flex;
-  flex-wrap: wrap;
+    // Fallback for browsers lacking flexbox support
+    @include when-inside('.no-flexbox') {
+        display: table;
+    }
+    // Make flex row
+    @include make-row();
 }
 
 //** Base card styles
 .app-card {
-  flex: 1;
-  color: $gray-lighter;
+    @include when-inside('.no-flexbox') {
+        // Fallback
+        display: table-cell;
+    }
+    @include when-inside('.app-cards') {
+        @include make-col(12);
+        @include media-breakpoint-up(sm) {
+            @include make-col(6);
+        }
+        @include media-breakpoint-up(md) {
+            @include make-col(4);
+        }
+    }
+    color: $gray-light;
 }
 
 //== Card layout
 //
 //## Reflow card contents based on viewport size
 .app-card-header {
-  display: flex;
-  align-items: center;
-  height: 8rem;
-  min-height: 8rem;
-  padding: 1rem $padding-small-horizontal;
-  background: $app-secondary;
+  @include clearfix;
+  padding: $card-spacer-y $card-spacer-x;
+  background: $card-cap-bg;
 }
 
 //** Card content
 .app-card-main {
-  padding: $padding-small-vertical $padding-small-horizontal;
-  background: $app-primary;
+  @include clearfix;
+  padding: $card-spacer-y $card-spacer-x;
 }
 
 //** Card footer
 .app-card-footer {
-  padding: $padding-small-vertical $padding-small-horizontal;
+  padding: $card-spacer-y $card-spacer-x;
 }
 
 //== Gutter
@@ -73,14 +86,6 @@
 .app-card-content {
   padding-top: 1rem;
   font-size: 1rem;
-  address {
-    margin-bottom: 0.75rem;
-  }
-  a {
-    font-weight: 400;
-    text-decoration: underline;
-    color: #fff;
-  }
 }
 
 
