@@ -43,7 +43,13 @@ DiazothemeGenerator.prototype.askFor = function askFor() {
 DiazothemeGenerator.prototype.app = function app() {
   this.directory('src/', 'app/');
   this.directory('layouts/', 'app/_layouts/');
-  this.directory('includes/', 'app/_includes/');
+  this.directory('includes/components', 'app/_includes/components');
+  this.directory('includes/layout', 'app/_includes/layout');
+  this.mkdir('app/_includes/base');
+  this.template('includes/base/head.html', 'app/_includes/base/head.html');
+  this.template('includes/base/javascript.html', 'app/_includes/base/javascript.html');
+  this.copy('includes/base/piwik.html', 'app/_includes/base/piwik.html');
+  this.copy('includes/base/webfonts.html', 'app/_includes/base/webfonts.html');
   this.directory('overrides/', 'overrides/');
   this.mkdir('app/scripts');
   this.copy('main.js', 'app/scripts/main.js');
