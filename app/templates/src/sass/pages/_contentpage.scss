@@ -10,8 +10,14 @@
 //== Page styles
 //
 //## Define content specific styles
-.app-page-title {
-  @extend .page-header;
+.app-page-header {
+    margin: 2rem 0;
+    border-bottom: 1px solid $gray-lighter;
+}
+
+.app-page-title,
+.app-page-headline {
+    font-size: 2rem;
 }
 
 

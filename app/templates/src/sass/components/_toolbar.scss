@@ -36,13 +36,14 @@ $plone-screen-lg-min:              1200px;
 //
 //== Mix plone styles with basic formatting
 .app-toolbar {
-    @extend .hidden-xs;
-    position: fixed;
-    top:0;
-    left:0;
-    height: 100%;
-    width: 120px;
-    background: $plone-toolbar-bg;
+    @include media-breakpoint-up(sm) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 120px;
+        background: $plone-toolbar-bg;
+    }
 }
 
 //** Toolbar header with brand and/or cms title information

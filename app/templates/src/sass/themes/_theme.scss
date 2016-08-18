@@ -7,7 +7,7 @@
 //
 //## Provides optional fullscreen layouts
 .app-main {
-  @extend .container-fluid;
+  @include make-container();
   &-fullscreen {
     display: flex;
     align-items: center;
@@ -19,41 +19,28 @@
   @extend .container;
   &-centerstage {
     @extend .container-fluid;
-    @extend .center-block;
+    margin: 0 auto;
     max-width: 480px;
   }
 }
 
-
-//== Page styles
-//
-//## Define content specific styles
-.app-page {
-  padding: $spacer 0;
+//** Add full height to layout components
+.app-section {
+    @include make-row()
 }
 
-.app-page-title {
-  @extend .page-header;
+.app-section-aside {
+    @include make-col(12);
+    @include media-breakpoint-up(md) {
+        @include make-col(3);
+        padding: 0 1rem 1rem 1rem;
+    }
 }
 
-
-// Use custom lead element for page desciptions
-// that has proper line-height on all media types
-.app-page-lead,
-.app-page-abstract {
-  margin-bottom: $spacer;
-  font-size: 1.25rem;
-  font-weight: 300;
-  line-height: 1.5;
-  @include media-breakpoint-up(sm) {
-    font-size: 1.5rem;
-  }
-}
-
-
-//== Page section
-//
-//## Container providing visual separation
-.app-page-section {
-  margin: 1rem 0 2rem;
+.app-section-main {
+    @include make-col(12);
+    @include media-breakpoint-up(md) {
+        @include make-col(9);
+        padding: 0 1rem 0 0;
+    }
 }
