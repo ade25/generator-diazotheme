@@ -53,6 +53,7 @@ DiazothemeGenerator.prototype.app = function app() {
   this.directory('overrides/', 'overrides/');
   this.mkdir('app/scripts');
   this.copy('main.js', 'app/scripts/main.js');
+  this.copy('app.js', 'app/scripts/app.js');
   this.copy('gulpfile.js', 'gulpfile.babel.js');
   this.copy('Gruntfile.js', 'Gruntfile.js');
   this.copy('Makefile', 'Makefile');
