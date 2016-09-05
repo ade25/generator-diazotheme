@@ -19,34 +19,33 @@
         <notheme if="$ajax_load" />
         <theme href="dist/index.html" />
 
+        <!-- Head -->
+        <copy attributes="*" css:theme="html" css:content="html" />
         <replace css:theme="title" css:content="title" />
         <after theme="/html/head/title" css:content="base" />
         <!-- Add meta tags -->
         <drop css:content="meta[name='viewport']" />
         <before content="/html/head/meta" theme="/html/head/title" />
 
+        <after
+            content="/html/head/link | /html/head/style | /html/head/script"
+            theme-children="/html/head"
+        />
+
        <rules css:if-content="body.userrole-authenticated">
-            <!-- Copy style, script and link tags in the order they appear in the content -->
-            <after
-                content="/html/head/style | /html/head/script | /html/head/link"
-                theme-children="/html/head"
-                />
-
+            <!-- Drop style tags from theme template -->
             <drop theme="/html/head/style" />
-            <drop theme="/html/head/link" />
-
-            <!-- Drop scripts from theme footer if present -->
-            <drop theme="/html/body/script" />
         </rules>
 
-        <!-- Custom favicon implementation -->
+        <drop theme="/html/body/script" />
+
+        <!-- Custom favicon implementation does automatically add
+            favicons to the html head - we drop the Plone CMS specific implementation
+        -->
+        <drop css:content="head link[rel='apple-touch-icon-precomposed']" />
         <drop css:content="head link[rel='apple-touch-icon']" />
         <drop css:content="head link[rel='shortcut icon']" />
-        <after theme="/html/head">
-            <link rel="shortcut icon" href="/++theme++example.sitetheme/dist/assets/ico/favicon.ico" type="images/x-icon" />
-            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/++theme++example.sitetheme/dist/assets/ico/apple-touch-icon-144-precomposed.png" />
-            <link rel="shortcut icon" href="/++theme++example.sitetheme/dist/assets/ico/favicon.png" />
-        </after>
+
 
         <!-- Copy over the id/class attributes on the body tag.
              This is important for per-section styling -->
@@ -57,16 +56,21 @@
         <drop css:theme="#app-toolbar"
             css:if-content=".userrole-anonymous" />
 
+        <!-- toolbar -->
         <replace css:theme="#app-toolbar"
-            css:content="#app-toolbar" />
+                css:content="#edit-bar"
+                css:if-not-content=".ajax_load"
+                css:if-content=".userrole-authenticated"/>
 
         <!-- Logo (link target) -->
         <copy attributes="href" css:content="#portal-logo" css:theme="a.app-navbar-brand" />
         <copy attributes="href" css:content="#portal-logo" css:theme="a.app-brand" />
 
         <!-- Portal searchbox -->
-        <!--<copy attributes="action" css:content="#portal-searchbox form"
-            css:theme="#portal-searchbox" />-->
+        <copy attributes="*" css:content="#portal-searchbox form"
+              css:theme="#app-searchbox" />
+
+        <replace css:content="#portal-searchbox" css:theme="#app-searchbox" method="raw" />
 
         <!-- Global navigation -->
         <replace css:content="#portal-globalnav li"
@@ -289,6 +293,85 @@
             <ul class="nav nav-list">
                 <xsl:apply-templates />
             </ul>
+        </replace>
+
+        <!-- Navtree -->
+        <!-- Uses card semantics throughout the template -->
+       <replace css:content=".portletNavigationTree" css:if-not-content=".template-overview-controlpanel">
+           <div class="app-card app-card-nav app-nav-list">
+               <div class="app-card-header">
+                   Navigation
+               </div>
+               <div class="app-card-main">
+                   <nav class="app-nav-tree">
+                       <xsl:for-each css:select=".portletContent > *">
+                           <ul class="app-nav-tree-list">
+                               <xsl:if test="@class[contains(.,'navTreeLevel0')]">
+                                   <xsl:attribute name="class">app-nav-list app-nav-level-0</xsl:attribute>
+                               </xsl:if>
+                               <xsl:if test="@class[contains(.,'navTreeLevel1')]">
+                                   <xsl:attribute name="class">app-nav-list app-nav-level-1</xsl:attribute>
+                               </xsl:if>
+                               <xsl:if test="@class[contains(.,'navTreeLevel2')]">
+                                   <xsl:attribute name="class">app-nav-list app-nav-level-2</xsl:attribute>
+                               </xsl:if>
+                               <xsl:if test="@class[contains(.,'navTreeItem')]">
+                                   <xsl:attribute name="class"><xsl:value-of select="./@class" /> app-nav-list-item</xsl:attribute>
+                               </xsl:if>
+                               <xsl:for-each css:select=".navTreeItem">
+                                   <li class="app-nav-list-item">
+                                       <a class="app-nav-list-link">
+                                           <xsl:copy-of select="./a/@*[local-name() != 'class']"/>
+                                           <xsl:attribute name="class"><xsl:value-of select="./@class" /> app-nav-list-link</xsl:attribute>
+                                           <xsl:copy-of select="./a/text()" />
+                                       </a>
+                                   </li>
+                               </xsl:for-each>
+                           </ul>
+                       </xsl:for-each>
+                   </nav>
+               </div>
+           </div>
+       </replace>
+
+       <!-- Fix for navigation portlet styles used inside the control panel overview -->
+        <replace css:content=".portletNavigationTree" css:if-content=".template-overview-controlpanel">
+            <div class="app-card">
+                <xsl:for-each css:select=".portlet > *">
+                    <div>
+                        <xsl:if test="@class[contains(.,'portletHeader')]">
+                            <xsl:attribute name="class">app-card-header</xsl:attribute>
+                        </xsl:if>
+                        <xsl:if test="@class[contains(.,'portletContent')]">
+                            <xsl:attribute name="class">app-card-main-plain</xsl:attribute>
+                        </xsl:if>
+                        <xsl:if test="@class[contains(.,'portletFooter')]">
+                            <xsl:attribute name="class">app-card-footer</xsl:attribute>
+                        </xsl:if>
+                        <xsl:copy-of select="node()"/>
+                    </div>
+                </xsl:for-each>
+            </div>
+        </replace>
+
+        <!-- Portlets-->
+        <replace css:content=".portlet:not(.portletNavigationTree)">
+            <div class="app-card">
+                <xsl:for-each css:select=".portlet > *">
+                    <div>
+                        <xsl:if test="@class[contains(.,'portletHeader')]">
+                            <xsl:attribute name="class">app-card-header</xsl:attribute>
+                        </xsl:if>
+                        <xsl:if test="@class[contains(.,'portletContent')]">
+                            <xsl:attribute name="class">app-card-main</xsl:attribute>
+                        </xsl:if>
+                        <xsl:if test="@class[contains(.,'portletFooter')]">
+                            <xsl:attribute name="class">app-card-footer</xsl:attribute>
+                        </xsl:if>
+                        <xsl:copy-of select="node()"/>
+                    </div>
+                </xsl:for-each>
+            </div>
         </replace>
 
     </rules>
