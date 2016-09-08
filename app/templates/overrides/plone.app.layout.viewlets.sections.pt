@@ -1,0 +1,44 @@
+<tal:sections
+        xmlns:tal="http://xml.zope.org/namespaces/tal"
+        xmlns:metal="http://xml.zope.org/namespaces/metal"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+     tal:define="portal_tabs view/portal_tabs"
+     tal:condition="portal_tabs"
+     i18n:domain="plone">
+
+    <p class="hiddenStructure" i18n:translate="heading_sections">Navigation</p>
+    <nav class="plone-navbar" id="portal-globalnav-wrapper" role="navigation">
+        <div class="app-navbar-header">
+            <div class="app-navbar-header-title">
+                <a class="app-navbar-brand" href="/">Navigation</a>
+            </div>
+            <div class="app-navbar-header-toggle">
+                <button type="button" class="app-navbar-toggle navbar-toggler hidden-md-up" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    &#9776;
+                </button>
+            </div>
+        </div>
+
+        <div class="navbar-collapse app-navbar-collapse collapse navbar-toggleable-md" id="app-navbar-collapse">
+            <ul class="plone-nav plone-navbar-nav"
+                id="portal-globalnav"
+                 tal:define="selected_tab python:view.selected_portal_tab">
+                <tal:tabs tal:repeat="tab portal_tabs">
+                    <li tal:define="tid tab/id"
+                         tal:attributes="id string:portaltab-${tid};
+                        class python:selected_tab==tid and 'app-navitem active selected' or 'app-navitem'">
+                        <a href=""
+                             tal:attributes="href tab/url;
+                            title tab/description|nothing;
+                            target tab/link_target|nothing;
+                            class string:app-navitem-tab app-navitem-tab-${tid}">
+                            <span tal:content="tab/name">Tab Name</span>
+                        </a>
+                    </li>
+                </tal:tabs>
+            </ul>
+        </div>
+    </nav>
+
+</tal:sections>

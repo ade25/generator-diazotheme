@@ -11,6 +11,10 @@ const browserSync = bsCreate();
 
 var cp = require('child_process');
 var pkg = require('./package.json');
+var fs = require('fs');
+
+// File where the favicon markups are stored
+var FAVICON_DATA_FILE = 'faviconData.json';
 
 var messages = {
     jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
@@ -26,21 +30,19 @@ var basePaths = {
 
 var sourcesJS = {
     base: [
-        basePaths.app + 'scripts/app.js'
+        basePaths.src + 'bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js',
+        basePaths.src + 'lazysizes/lazysizes.js',
+        basePaths.src + 'flickity/dist/flickity.pkgd.js'
     ],
     all: [
-        basePaths.src + '/jquery/dist/jquery.js'
-        basePaths.src + '/modernizr/modernizr.js',
-        basePaths.src + '/tether/dist/js/tether.min.js',
-        basePaths.src + '/bootstrap/dist/js/bootstrap.js',
-        basePaths.src + '/mailcheck/src/mailcheck.js',
-        basePaths.src + '/JVFloat/jvfloat.js',
-        basePaths.src + '/hideShowPassword/hideShowPassword.js',
-        basePaths.src + '/lazysizes/plugins/ls.parent-fit.js',
-        basePaths.src + '/lazysizes/lazysizes.js',
-        basePaths.src + '/respimage/respimage.js',
-        basePaths.src + '/flickity/dist/flickity.pkgd.js',
-        basePaths.app + '/scripts/main.js'
+        basePaths.src + 'jquery/dist/jquery.js',
+        basePaths.src + 'modernizr/modernizr.js',
+        basePaths.src + 'bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js',
+        basePaths.src + 'mailcheck/src/mailcheck.js',
+        basePaths.src + 'JVFloat/jvfloat.js',
+        basePaths.src + 'hideShowPassword/hideShowPassword.js',
+        basePaths.src + 'lazysizes/lazysizes.js',
+        basePaths.src + 'flickity/dist/flickity.pkgd.js'
 
     ]
 };
@@ -58,8 +60,15 @@ gulp.task('jekyll-build', function (done) {
 
 gulp.task('browser-sync', function () {
     browserSync.init({
+        notify: false,
+        port: 9499,
         server: {
-            baseDir: "./"
+            baseDir: ['.tmp', basePaths.dist],
+            routes: {
+                '/scripts': basePaths.dist + '/scripts',
+                '/styles': basePaths.dist + '/styles',
+                '/assets': basePaths.dist + '/assets',
+            }
         }
     });
 });
@@ -87,7 +96,7 @@ gulp.task('styles', () => {
         }))
         .pipe($.sourcemaps.write())
         .pipe(gulp.dest(basePaths.dist + '/styles/'))
-        .pipe(browserSync.reload({stream: true}));
+        .pipe(browserSync.reload({stream: true}))
 });
 
 gulp.task('scripts', () => {
@@ -176,6 +185,38 @@ gulp.task('replace', () => {
         .pipe(gulp.dest(basePaths.dev))
 });
 
+gulp.task('clean', del.bind(null, ['.tmp', basePaths.dist]));
+
+gulp.task('serve', ['styles', 'scripts', 'jekyll-build', 'html'], () => {
+  browserSync.init({
+    notify: false,
+    port: 9499,
+    server: {
+      baseDir: ['.tmp', basePaths.dist],
+      routes: {
+        '/scripts': basePaths.dist + '/scripts',
+        '/styles': basePaths.dist + '/styles',
+        '/assets': basePaths.dist + '/assets',
+      }
+    }
+  });
+
+  gulp.watch([
+    basePaths.app + '/*.html',
+    basePaths.app + '/scripts/*.js',
+    basePaths.app + '/styles/*.css',
+  ]).on('change', browserSync.reload);
+
+  gulp.watch(basePaths.app + "sass/**/*.scss", ['styles']);
+  gulp.watch(basePaths.app + "scripts/**/*.js", ['scripts']);
+  gulp.watch(basePaths.app + "{,*/}*.html", ['jekyll-build', 'html']);
+});
+
+gulp.task('default', ['browser-sync'], function () {
+    gulp.watch(basePaths.app + "sass/**/*.scss", ['styles']);
+    gulp.watch(basePaths.app + "scripts/**/*.js", ['scripts']);
+    gulp.watch(basePaths.app + "*.html", ['bs-reload']);
+});
 
 // Generate the icons. This task takes a few seconds to complete.
 // You should run it at least once to create the icons. Then,
@@ -270,37 +311,4 @@ gulp.task('check-for-favicon-update', function(done) {
             throw err;
         }
     });
-});
-
-gulp.task('clean', del.bind(null, ['.tmp', basePaths.dist]));
-
-gulp.task('serve', ['styles', 'scripts', 'jekyll-build', 'html'], () => {
-  browserSync.init({
-    notify: false,
-    port: 9000,
-    server: {
-      baseDir: ['.tmp', basePaths.dist],
-      routes: {
-        '/scripts': basePaths.dist + '/scripts',
-        '/styles': basePaths.dist + '/styles',
-        '/assets': basePaths.dist + '/assets',
-      }
-    }
-  });
-
-  gulp.watch([
-    basePaths.app + '/*.html',
-    basePaths.app + '/scripts/*.js',
-    basePaths.app + '/styles/*.css',
-  ]).on('change', reload);
-
-  gulp.watch(basePaths.app + "sass/**/*.scss", ['styles']);
-  gulp.watch(basePaths.app + "scripts/**/*.js", ['scripts']);
-  gulp.watch(basePaths.app + "{,*/}*.html", ['jekyll-build', 'html']);
-});
-
-gulp.task('default', ['browser-sync'], function () {
-    gulp.watch(basePaths.app + "sass/**/*.scss", ['styles']);
-    gulp.watch(basePaths.app + "scripts/**/*.js", ['scripts']);
-    gulp.watch(basePaths.app + "*.html", ['bs-reload']);
 });
