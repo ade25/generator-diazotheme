@@ -39,8 +39,6 @@ module.exports = function (grunt) {
                     '<%= config.modules %>/JVFloat/jvfloat.js',
                     '<%= config.modules %>/hideShowPassword/hideShowPassword.js',
                     '<%= config.modules %>/lazysizes/plugins/ls.parent-fit.js',
-                    '<%= config.modules %>/lazysizes/plugins/ls.bgset.js',
-                    '<%= config.modules %>/lazysizes/plugins/ls.unveilhooks.js',
                     '<%= config.modules %>/lazysizes/lazysizes.js',
                     '<%= config.modules %>/respimage/respimage.js',
                     '<%= config.modules %>/flickity/dist/flickity.pkgd.js',
@@ -153,11 +151,11 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            fontawesome: {
+            iconfont: {
                 expand: true,
                 flatten: true,
                 cwd: '<%= config.modules %>/',
-                src: ['font-awesome/fonts/*'],
+                src: ['ionicons/dist/fonts/*'],
                 dest: '<%= config.dist %>/assets/fonts/'
             },
             showPassword: {
@@ -667,6 +665,7 @@ module.exports = function (grunt) {
         'html',
         'css',
         'js',
+        'copy:javascript',
         'cb',
         'replace:dist'
     ]);
