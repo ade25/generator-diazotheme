@@ -7,7 +7,7 @@ var DiazothemeGenerator = module.exports = function DiazothemeGenerator(args, op
   yeoman.generators.Base.apply(this, arguments);
 
   this.on('end', function() {
-    this.npmInstall({skipInstall: options['skip-install']});
+    this.npmInstall();
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
