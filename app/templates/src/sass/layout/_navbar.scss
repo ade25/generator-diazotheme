@@ -4,10 +4,6 @@
 
 .app-navbar {
   @extend .navbar;
-  @include media-breakpoint-up(md) {
-    background: transparent;
-    border-bottom: 10px solid $gray;
-  }
 }
 
 //== Navbar header
@@ -99,6 +95,7 @@
 
 // Unordered list main navigation
 .app-navbar-nav {
+  @extend .nav;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
