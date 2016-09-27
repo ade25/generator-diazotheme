@@ -11,6 +11,7 @@ const browserSync = bsCreate();
 
 var cp = require('child_process');
 var pkg = require('./package.json');
+var cfg = require('./config.json');
 var fs = require('fs');
 
 // File where the favicon markups are stored
@@ -295,7 +296,7 @@ gulp.task('generate-favicon', function(done) {
 // this task whenever you modify a page. You can keep this task
 // as is or refactor your existing HTML pipeline.
 gulp.task('inject-favicon-markups', function() {
-    gulp.src([ basePaths.app + '_includes/base/head.html' ])
+    gulp.src([ cfg.paths.app + '_includes/base/head.html' ])
         .pipe($.realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
         .pipe(gulp.dest(basePaths.app + '_includes/base/'));
 });

@@ -1,3 +1,13 @@
 {
-  "name": "<%= themeName %>"
+  "name": "<%= themeName %>",
+  "paths": {
+    "app": "app/",
+    "dev": "_site/",
+    "dist": "dist/",
+    "diazoPrefix": "/++theme++pkg.name.sitetheme/",
+    "src": "node_modules/"
+  },
+  "favicon": {
+    "faviconData": "faviconData.json",
+  }
 }
