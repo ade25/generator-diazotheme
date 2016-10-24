@@ -8,6 +8,16 @@
     "src": "node_modules/"
   },
   "favicon": {
-    "faviconData": "faviconData.json",
+    "dataFile": "faviconData.json",
+    "masterPicture": "favicon.png",
+    "iconPath": "assets/ico/",
+    "ios": "#ffffff",
+    "windows": "#2d89ef",
+    "androidBackground": "#ffffff",
+    "androidColor": "#ffffff",
+    "safariColor": "#5bbad5",
+    "revisionKey": "iet7OjeChoz1",
+    "html": "_includes/base/head.html",
+    "htmlDist": "_includes/base/"
   }
 }
