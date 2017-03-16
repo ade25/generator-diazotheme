@@ -41,5 +41,30 @@
       "respimage/respimage.js",
       "flickity/dist/flickity.pkgd.js"
     ]
-  }
+  },
+  "replacementPatterns": {
+        "server": [
+            {
+                "match": "../../assets/",
+                "replacement": "../assets/"
+            },
+            {
+                "match": "../../dist/styles/",
+                "replacement": "/styles/"
+            },
+            {
+                "match": "../dist/styles/",
+                "replacement": "/styles/"
+            },
+            {
+                "match": "../../dist/scripts/",
+                "replacement": "/scripts/"
+            },
+            {
+                "match": "../dist/scripts/",
+                "replacement": "/scripts/"
+            }
+        ]
+    }
+}
 }

@@ -43,6 +43,8 @@ var sourcesJS = {
 };
 
 var jsSrcBase = cfg.scripts.base;
+// Add project specific File
+// jsSrcBase.push('scripts/main.js');
 
 var isProduction = args.env === 'dist';
 
@@ -154,6 +156,17 @@ gulp.task('html', () => {
 })
 ;
 
+gulp.task('html-serve', () => {
+    return gulp.src(cfg.paths.dev + '{,*/}*.html')
+        .pipe($.replaceTask({
+            patterns: cfg.replacementPatterns.server,
+            usePrefix: false,
+            preserveOrder: true
+        }))
+        .pipe(gulp.dest(cfg.paths.dist));
+})
+;
+
 gulp.task('cb', () => {
     return gulp.src(cfg.paths.dist + 'styles/*.min.css')
         .pipe($.rev())
@@ -188,23 +201,10 @@ gulp.task('replace', () => {
         .pipe(gulp.dest(cfg.paths.dev))
 });
 
-gulp.task('replace-dev', () => {
-    return gulp.src(cfg.paths.dev + '/{,*/}*.html')
+gulp.task('replace-dev', ['jekyll-build'], () => {
+    return gulp.src(cfg.paths.dev + '**/*.html')
         .pipe($.replaceTask({
-            patterns: [
-                {
-                    match: '../../assets/',
-                    replacement: '../assets/'
-                },
-                {
-                    match: '../dist/styles/',
-                    replacement: '/styles/'
-                },
-                {
-                    match: '../dist/scripts/',
-                    replacement: '/scripts/'
-                },
-            ],
+            patterns: cfg.replacementPatterns.server,
             usePrefix: false,
             preserveOrder: true
         }))
@@ -213,12 +213,12 @@ gulp.task('replace-dev', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', cfg.paths.dist]));
 
-gulp.task('serve', ['styles', 'scripts', 'jekyll-build', 'replace-dev', 'html'], () => {
+gulp.task('serve', ['styles', 'scripts', 'jekyll-build', 'html-serve'], () => {
     browserSync.init({
     notify: false,
     port: 9499,
     server: {
-        baseDir: ['.tmp', cfg.paths.dist],
+        baseDir: [cfg.paths.dist],
         routes: {
             '/scripts': cfg.paths.dist + '/scripts',
             '/styles': cfg.paths.dist + '/styles',
@@ -243,6 +243,7 @@ gulp.task('default', ['browser-sync'], function () {
     gulp.watch(cfg.paths.app + "scripts/**/*.js", ['scripts']);
     gulp.watch(cfg.paths.app + "*.html", ['bs-reload']);
 });
+
 
 // Generate the icons. This task takes a few seconds to complete.
 // You should run it at least once to create the icons. Then,
