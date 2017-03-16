@@ -4,7 +4,7 @@
     "app": "app/",
     "dev": "_site/",
     "dist": "dist/",
-    "diazoPrefix": "/++theme++pkg.name.sitetheme/",
+    "diazoPrefix": "/++theme++<%= _.slugify(themeName) %>.sitetheme/",
     "src": "node_modules/"
   },
   "favicon": {
@@ -19,5 +19,27 @@
     "revisionKey": "iet7OjeChoz1",
     "html": "_includes/base/head.html",
     "htmlDist": "_includes/base/"
+  },
+  "scripts": {
+    "src": [
+        "fontfaceobserver/fontfaceobserver.js",
+        "bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js",
+        "lazysizes/lazysizes.js",
+        "flickity/dist/flickity.pkgd.js"
+    ],
+    "base": [
+      "jquery/dist/jquery.js",
+      "modernizr/modernizr.js",
+      "tether/dist/js/tether.min.js",
+      "bootstrap/dist/js/bootstrap.js",
+      "fontfaceobserver/fontfaceobserver.js",
+      "mailcheck/src/mailcheck.js",
+      "JVFloat/jvfloat.js",
+      "hideShowPassword/hideShowPassword.js",
+      "lazysizes/plugins/ls.parent-fit.js",
+      "lazysizes/lazysizes.js",
+      "respimage/respimage.js",
+      "flickity/dist/flickity.pkgd.js"
+    ]
   }
 }
