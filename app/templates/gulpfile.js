@@ -10,6 +10,8 @@ import {stream as wiredep} from 'wiredep';
 const $ = gulpLoadPlugins();
 const browserSync = bsCreate();
 
+var runSequence = require('run-sequence');
+
 var cp = require('child_process');
 var pkg = require('./package.json');
 var cfg = require('./config.json');
@@ -24,7 +26,6 @@ var messages = {
 
 var sourcesJS = {
     base: [
-        cfg.paths.src + '/fontfaceobserver/fontfaceobserver.js',
         cfg.paths.src + 'bootstrap-without-jquery/bootstrap3/bootstrap-without-jquery.js',
         cfg.paths.src + 'lazysizes/lazysizes.js',
         cfg.paths.src + 'flickity/dist/flickity.pkgd.js'
@@ -41,10 +42,6 @@ var sourcesJS = {
 
     ]
 };
-
-var jsSrcBase = cfg.scripts.base;
-// Add project specific File
-// jsSrcBase.push('scripts/main.js');
 
 var isProduction = args.env === 'dist';
 
@@ -86,7 +83,7 @@ gulp.task('styles', () => {
             includePaths: [cfg.paths.src]
         }).on('error', $.sass.logError))
         .pipe($.autoprefixer({browsers: ['last 1 version']}))
-        .pipe($.csscomb())
+        //.pipe($.csscomb())
         .pipe(gulp.dest(cfg.paths.dist + 'styles/'))
         .pipe($.cssnano())
         .pipe($.rename({
@@ -99,7 +96,7 @@ gulp.task('styles', () => {
 });
 
 gulp.task('scripts', () => {
-    return gulp.src(isProduction ? sourcesJS.all : cfg.scripts.base, {base: cfg.paths.src})
+    return gulp.src(isProduction ? sourcesJS.all : sourcesJS.base)
         .pipe($.plumber({
             errorHandler: function (error) {
                 console.log(error.message);
@@ -135,34 +132,15 @@ gulp.task('images', () => {
 ;
 
 gulp.task('fonts', () => {
-    return gulp.src(require('main-bower-files')({
-        filter: '**/*.{eot,svg,ttf,woff,woff2}'
-    }).concat(cfg.paths.app + 'assets/fonts/**/*'))
+    return gulp.src(cfg.paths.app + 'assets/fonts/**/*')
         .pipe(gulp.dest('.tmp/fonts'))
         .pipe(gulp.dest(cfg.paths.dist + 'assets/fonts'));
 })
 ;
 
-gulp.task('copy-scripts', () => {
-    return gulp.src(cfg.scripts.base, {base: cfg.paths.src})
-        .pipe(gulp.dest(cfg.paths.app + 'scripts'));
-})
-;
-
-gulp.task('html', () => {
+gulp.task('html', ['replace'], () => {
     return gulp.src(cfg.paths.dev + '{,*/}*.html')
         .pipe($.minifyHtml())
-        .pipe(gulp.dest(cfg.paths.dist));
-})
-;
-
-gulp.task('html-serve', () => {
-    return gulp.src(cfg.paths.dev + '{,*/}*.html')
-        .pipe($.replaceTask({
-            patterns: cfg.replacementPatterns.server,
-            usePrefix: false,
-            preserveOrder: true
-        }))
         .pipe(gulp.dest(cfg.paths.dist));
 })
 ;
@@ -181,28 +159,13 @@ gulp.task('cb', () => {
 gulp.task('revreplace', () => {
     var manifest = gulp.src(cfg.paths.dist + '/styles/rev-manifest.json');
 return gulp.src(cfg.paths.dev + '/{,*/}*.html')
-    .pipe(revReplace({manifest: manifest}))
+    .pipe($.revReplace({manifest: manifest}))
     .pipe(gulp.dest(cfg.paths.dev));
 })
 ;
 
 gulp.task('replace', () => {
     return gulp.src(cfg.paths.dev + '/{,*/}*.html')
-        .pipe($.replaceTask({
-            patterns: [
-                {
-                    match: '../../assets/',
-                    replacement: '../assets/'
-                }
-            ],
-            usePrefix: false,
-            preserveOrder: true
-        }))
-        .pipe(gulp.dest(cfg.paths.dev))
-});
-
-gulp.task('replace-dev', ['jekyll-build'], () => {
-    return gulp.src(cfg.paths.dev + '**/*.html')
         .pipe($.replaceTask({
             patterns: cfg.replacementPatterns.server,
             usePrefix: false,
@@ -211,14 +174,26 @@ gulp.task('replace-dev', ['jekyll-build'], () => {
         .pipe(gulp.dest(cfg.paths.dev))
 });
 
+
+gulp.task('replace-pat', () => {
+    return gulp.src(cfg.paths.dev + '/{,*/}*.html')
+        .pipe($.replaceTask({
+            patterns: cfg.replacementPatterns.pat,
+            usePrefix: false,
+            preserveOrder: true
+        }))
+        .pipe(gulp.dest(cfg.paths.dev))
+});
+
+
 gulp.task('clean', del.bind(null, ['.tmp', cfg.paths.dist]));
 
-gulp.task('serve', ['styles', 'scripts', 'jekyll-build', 'html-serve'], () => {
+gulp.task('serve', ['styles', 'scripts', 'jekyll-build', 'replace', 'html'], () => {
     browserSync.init({
     notify: false,
     port: 9499,
     server: {
-        baseDir: [cfg.paths.dist],
+        baseDir: ['.tmp', cfg.paths.dist],
         routes: {
             '/scripts': cfg.paths.dist + '/scripts',
             '/styles': cfg.paths.dist + '/styles',
@@ -242,6 +217,20 @@ gulp.task('default', ['browser-sync'], function () {
     gulp.watch(cfg.paths.app + "sass/**/*.scss", ['styles']);
     gulp.watch(cfg.paths.app + "scripts/**/*.js", ['scripts']);
     gulp.watch(cfg.paths.app + "*.html", ['bs-reload']);
+});
+
+gulp.task('watch', function () {
+    gulp.watch(cfg.paths.app + "sass/**/*.scss", ['styles']);
+});
+
+gulp.task('build-dev', function(done) {
+    runSequence(
+        'clean',
+        ['fonts', 'images'],
+        ['jekyll-build', 'styles', 'scripts'],
+        'replace-pat',
+        'html',
+        done);
 });
 
 

@@ -64,7 +64,36 @@
                 "match": "../dist/scripts/",
                 "replacement": "/scripts/"
             }
+        ],
+        "pat": [
+            {
+                "match": "../assets/",
+                "replacement": "assets/"
+            },
+            {
+                "match": "assets/",
+                "replacement": "/++theme++<%= _.slugify(themeName) %>.sitetheme//dist/assets/"
+            },
+            {
+                "match": "../styles/",
+                "replacement": "/++theme++<%= _.slugify(themeName) %>.sitetheme/dist/styles/"
+            },
+            {
+                "match": "styles/",
+                "replacement": "/++theme++<%= _.slugify(themeName) %>.sitetheme/dist/styles/"
+            },
+            {
+                "match": "/styles/",
+                "replacement": "/++theme++<%= _.slugify(themeName) %>.sitetheme/dist/styles/"
+            },
+            {
+                "match": "../scripts/",
+                "replacement": "/++theme++<%= _.slugify(themeName) %>.sitetheme/scripts/"
+            },
+            {
+                "match": "scripts/",
+                "replacement": "/++theme++<%= _.slugify(themeName) %>.sitetheme/scripts/"
+            }
         ]
     }
-}
 }
